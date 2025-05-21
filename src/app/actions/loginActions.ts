@@ -17,11 +17,13 @@ export const getAccountInfo = async () => {
   }
 };
 
-export const getLoginToken = async () => {
+export const getLoginToken = async (email: string, password: string) => {
   try {
     const response = await axios.post(process.env.BASE_URL + "/api/login", {
-      email: process.env.EMAIL_TEST,
-      password: process.env.PASSWORD_TEST,
+      // email: process.env.EMAIL_TEST,
+      // password: process.env.PASSWORD_TEST,
+      email,
+      password,
     });
     return response.data;
   } catch (error) {
@@ -37,6 +39,7 @@ export const pingAPI = async () => {
     return response.data;
   } catch (error) {
     console.error("Error al hacer ping:", error);
+
     throw error;
   }
 };
