@@ -1,7 +1,7 @@
+import Header from "@/components/Header";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,15 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-dvh`}
       >
-        <header className="flex justify-between items-center px-5 md:px-20 py-10">
-          <h1 className="hidden md:block">Digital Money House</h1>
-          <h1 className="md:hidden block">DMH</h1>
-          <nav className="flex gap-2">
-            <Link href={"/home"}>Home</Link>
-            <Link href={"/signup"}>Registro</Link>
-            <Link href={"/login"}>Iniciar sesión</Link>
-          </nav>
-        </header>
+        <Header />
         <main className="grow">{children}</main>
         <footer className="p-2">
           <p className="text-center">© 2022 Digital Money House</p>

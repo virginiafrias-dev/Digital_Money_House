@@ -17,7 +17,7 @@ export const getAccountInfo = async () => {
   }
 };
 
-export const getLoginToken = async (email: string, password: string) => {
+export const postLogin = async (email: string, password: string) => {
   try {
     const response = await axios.post(process.env.BASE_URL + "/api/login", {
       // email: process.env.EMAIL_TEST,

@@ -13,17 +13,17 @@ const page = () => {
 
   const router = useRouter();
 
-  const handleLogin = async () => {
+  const handleLogin = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
     setIsLoading(true);
     console.log({ email, password });
     try {
       if (incorrectInfo) setIncorrectInfo(false);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/login`,
-        { email, password }
-      );
+      const response = await axios.post(`/api/login`, { email, password });
       console.log(response.data);
-      router.push("/home");
+      location.href = "/home";
     } catch (error) {
       console.error(error);
       setEmail("");
@@ -42,7 +42,7 @@ const page = () => {
           <input
             id="email"
             required
-            type="email"
+            type="text"
             placeholder="Correo electrónico"
             value={email}
             onChange={(e) => setEmail(e.target.value.trim())}
@@ -50,14 +50,17 @@ const page = () => {
           <button
             className={clsx(!email && "cursor-not-allowed", "")}
             disabled={isLoading || !email}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               if (!email) return;
               setSteps("two");
             }}
           >
             Continuar
           </button>
-          <button onClick={() => router.push("/signup")}>Crear cuenta</button>
+          <button type="button" onClick={() => router.push("/signup")}>
+            Crear cuenta
+          </button>
           {incorrectInfo && (
             <p className="text-red-500">
               Credenciales incorrectas. Vuelve a intentarlo
