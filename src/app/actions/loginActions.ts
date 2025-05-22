@@ -20,14 +20,38 @@ export const getAccountInfo = async () => {
 export const postLogin = async (email: string, password: string) => {
   try {
     const response = await axios.post(process.env.BASE_URL + "/api/login", {
-      // email: process.env.EMAIL_TEST,
-      // password: process.env.PASSWORD_TEST,
       email,
       password,
     });
     return response.data;
   } catch (error) {
     console.error("Error al hacer login:", error);
+    throw error;
+  }
+};
+
+interface SignupData {
+  firstname: string;
+  lastname: string;
+  dni: number;
+  email: string;
+  password: string;
+  phone: string;
+}
+
+export const postSignup = async (data: SignupData) => {
+  try {
+    const response = await axios.post(process.env.BASE_URL + "/api/users", {
+      firstname: data.firstname,
+      lastname: data.lastname,
+      dni: data.dni,
+      email: data.email,
+      password: data.password,
+      phone: data.phone,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al registrar usuario:", error);
     throw error;
   }
 };

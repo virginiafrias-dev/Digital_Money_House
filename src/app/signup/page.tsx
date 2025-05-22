@@ -3,6 +3,9 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { postSignup } from "../actions/loginActions";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const schema = yup
   .object({
@@ -46,11 +49,39 @@ const schema = yup
 const page = () => {
   const {
     register,
-    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-  const onSubmit = handleSubmit((data) => console.log(data));
+
+  const router = useRouter();
+
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      if (
+        !data.firstName ||
+        !data.lastName ||
+        !data.identification ||
+        !data.email ||
+        !data.password ||
+        !data.phone
+      ) {
+        return console.error("Falta algún dato");
+      }
+
+      await axios.post("/api/signup", {
+        firstname: data.firstName,
+        lastname: data.lastName,
+        dni: Number(data.identification),
+        email: data.email,
+        password: data.password,
+        phone: data.phone,
+      });
+
+      router.push("/login");
+    } catch (error) {
+      throw error;
+    }
+  });
 
   return (
     <form
