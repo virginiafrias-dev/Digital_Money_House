@@ -1,89 +1,121 @@
 "use client";
+import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import clsx from "clsx";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+
+const schemaEmail = yup.object({
+  email: yup
+    .string()
+    .email("Introduce un email válido")
+    .required("Campo obligatorio"),
+});
+
+const schemaPassword = yup.object({
+  password: yup.string().required("Campo obligatorio"),
+});
 
 const page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [steps, setSteps] = useState<"one" | "two">("one");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [incorrectInfo, setIncorrectInfo] = useState(false);
+  const [incorrectCredentials, setIncorrectCredentials] = useState(false);
 
-  const router = useRouter();
+  const {
+    register: registerEmail,
+    handleSubmit: handleSubmitEmail,
+    formState: { errors: errorsEmail },
+    getValues: getValuesEmail,
+    reset: resetEmail,
+  } = useForm({ resolver: yupResolver(schemaEmail) });
 
-  const handleLogin = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
+  const {
+    register: registerPassword,
+    handleSubmit: handleSubmitPassword,
+    formState: { errors: errorsPassword },
+    reset: resetPassword,
+  } = useForm({ resolver: yupResolver(schemaPassword) });
+
+  const onSubmitEmail = handleSubmitEmail(async () => {
+    setSteps("two");
+    setIncorrectCredentials(false);
+  });
+
+  const onSubmitPassword = handleSubmitPassword(async (data) => {
     setIsLoading(true);
+
+    const email = getValuesEmail("email");
+    const password = data.password;
+
     console.log({ email, password });
+
     try {
-      if (incorrectInfo) setIncorrectInfo(false);
       const response = await axios.post(`/api/login`, { email, password });
       console.log(response.data);
       location.href = "/home";
     } catch (error) {
       console.error(error);
-      setEmail("");
-      setPassword("");
       setSteps("one");
-      setIncorrectInfo(true);
+      resetEmail();
+      resetPassword();
+      setIncorrectCredentials(true);
     }
     setIsLoading(false);
-  };
+  });
 
   return (
-    <form>
-      {steps === "one" ? (
-        <div className="flex flex-col gap-4 items-center">
-          <label htmlFor="email">¡Hola! Ingresá tu e-mail</label>
+    <div className="my-[50%] px-10 md:mx-[30%] md:max-w-[500px]">
+      {/* STEP 1 */}
+      {steps === "one" && (
+        <form onSubmit={onSubmitEmail} className="flex flex-col gap-4">
+          <label htmlFor="email" className="font-bold text-xl text-center">
+            ¡Hola! Ingresá tu e-mail
+          </label>
           <input
             id="email"
-            required
-            type="text"
             placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value.trim())}
+            className={clsx(errorsEmail.email && "input-error")}
+            {...registerEmail("email")}
           />
-          <button
-            className={clsx(!email && "cursor-not-allowed", "")}
-            disabled={isLoading || !email}
-            onClick={(e) => {
-              e.preventDefault();
-              if (!email) return;
-              setSteps("two");
-            }}
-          >
-            Continuar
-          </button>
-          <button type="button" onClick={() => router.push("/signup")}>
+          <button className="btn btn-primary">Continuar</button>
+          <Link className="btn btn-primary" href={"/signup"}>
             Crear cuenta
-          </button>
-          {incorrectInfo && (
-            <p className="text-red-500">
-              Credenciales incorrectas. Vuelve a intentarlo
+          </Link>
+          {errorsEmail.email && (
+            <p className="error-p">{errorsEmail.email?.message}</p>
+          )}
+          {incorrectCredentials && (
+            <p className="error-p">
+              Credenciales incorrectas, intentá nuevamente
             </p>
           )}
-        </div>
-      ) : (
-        <div className="flex flex-col gap-4 items-center">
-          <label htmlFor="password">Ingresá tu contraseña</label>
+        </form>
+      )}
+
+      {/* STEP 2 */}
+      {steps === "two" && (
+        <form onSubmit={onSubmitPassword} className="flex flex-col gap-4">
+          <label htmlFor="password" className="font-bold text-xl text-center">
+            Ingresá tu contraseña
+          </label>
           <input
             id="password"
-            required
             type="password"
             placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value.trim())}
+            {...registerPassword("password")}
+            className={clsx(errorsPassword.password && "input-error")}
           />
-          <button onClick={handleLogin} disabled={isLoading}>
+          <button className="btn btn-primary" disabled={isLoading}>
             Ingresar
           </button>
-        </div>
+          {errorsPassword.password && (
+            <p className="error-p">{errorsPassword.password?.message}</p>
+          )}
+        </form>
       )}
-    </form>
+    </div>
   );
 };
 

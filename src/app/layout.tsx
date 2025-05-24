@@ -29,9 +29,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-dvh`}
       >
         <Header />
-        <main className="grow">{children}</main>
-        <footer className="p-2">
-          <p className="text-center">© 2022 Digital Money House</p>
+        <main className="grow bg-brand-black">{children}</main>
+        <footer className="py-5 bg-brand-gray text-brand-green flex justify-center">
+          <p className="text-[13px]">© 2022 Digital Money House</p>
         </footer>
       </body>
     </html>

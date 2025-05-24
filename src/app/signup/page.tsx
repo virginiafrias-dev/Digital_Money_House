@@ -3,9 +3,9 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { postSignup } from "../actions/loginActions";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import clsx from "clsx";
 
 const schema = yup
   .object({
@@ -77,52 +77,74 @@ const page = () => {
         phone: data.phone,
       });
 
-      router.push("/login");
+      router.push("/signup/success");
     } catch (error) {
       throw error;
     }
   });
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="flex flex-col gap-4 items-center mx-10"
-    >
-      <h1 className="mb-4">Crear Cuenta</h1>
-      <input type="text" {...register("firstName")} placeholder="Nombre*" />
-      <p className="error-p">{errors.firstName?.message}</p>
-      <input type="text" {...register("lastName")} placeholder="Apellido*" />
-      <p className="error-p">{errors.lastName?.message}</p>
-      <input type="number" {...register("identification")} placeholder="DNI*" />
-      <p className="error-p">{errors.identification?.message}</p>
+    <form onSubmit={onSubmit} className="flex flex-col gap-2 mx-10">
+      <h1 className="text-xl font-bold text-center mt-10 mb-2">Crear Cuenta</h1>
       <input
+        className={clsx(errors.firstName && "input-error")}
+        type="text"
+        {...register("firstName")}
+        placeholder="Nombre*"
+      />
+      <p className="error-p">{errors.firstName?.message}</p>
+      <input
+        className={clsx(errors.lastName && "input-error")}
+        type="text"
+        {...register("lastName")}
+        placeholder="Apellido*"
+      />
+      <p className="error-p">{errors.lastName?.message}</p>
+      <input
+        className={clsx(errors.identification && "input-error")}
+        type="number"
+        {...register("identification")}
+        placeholder="DNI*"
+      />
+
+      <p className="error-p">{errors.identification?.message}</p>
+
+      <input
+        className={clsx(errors.email && "input-error")}
         type="email"
         {...register("email")}
-        placeholder="Correo Electrónico*"
+        placeholder="Correo electrónico*"
       />
       <p className="error-p">{errors.email?.message}</p>
-      <p className="mb-4 text-justify text-sm">
+      <p className="text-justify text-[12px]">
         Usa entre 6 y 20 carácteres (debe contener al menos al menos 1 carácter
         especial, una mayúscula y un número).
       </p>
       <input
+        className={clsx(errors.password && "input-error")}
         {...register("password")}
         type="password"
         placeholder="Contraseña*"
       />
       <p className="error-p">{errors.password?.message}</p>
       <input
+        className={clsx(errors.confirmPassword && "input-error")}
         {...register("confirmPassword")}
         type="password"
-        placeholder="Confirmar Contraseña*"
+        placeholder="Confirmar contraseña*"
       />
+
       <p className="error-p">{errors.confirmPassword?.message}</p>
-      <input type="tel" {...register("phone")} placeholder="Teléfono*" />
+
+      <input
+        className={clsx(errors.phone && "input-error")}
+        type="tel"
+        {...register("phone")}
+        placeholder="Teléfono*"
+      />
       <p className="error-p">{errors.phone?.message}</p>
 
-      <button onClick={onSubmit} className="w-80">
-        Crear Cuenta
-      </button>
+      <button className="mt-4 btn btn-primary">Crear Cuenta</button>
     </form>
   );
 };
