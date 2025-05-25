@@ -15,7 +15,8 @@ const schema = yup
       .string()
       .required("Campo obligatorio")
       .matches(/^\d+$/, "Debe contener solo números")
-      .min(7, "Debe tener al menos 7 dígitos"),
+      .min(7, "Debe tener al menos 7 dígitos")
+      .max(9, "No debe superar los 9 dígitos"),
 
     email: yup
       .string()
@@ -84,68 +85,106 @@ const page = () => {
   });
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-2 mx-10">
-      <h1 className="text-xl font-bold text-center mt-10 mb-2">Crear Cuenta</h1>
-      <input
-        className={clsx(errors.firstName && "input-error")}
-        type="text"
-        {...register("firstName")}
-        placeholder="Nombre*"
-      />
-      <p className="error-p">{errors.firstName?.message}</p>
-      <input
-        className={clsx(errors.lastName && "input-error")}
-        type="text"
-        {...register("lastName")}
-        placeholder="Apellido*"
-      />
-      <p className="error-p">{errors.lastName?.message}</p>
-      <input
-        className={clsx(errors.identification && "input-error")}
-        type="number"
-        {...register("identification")}
-        placeholder="DNI*"
-      />
+    <div className="absolute inset-0 grid place-items-center ">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col gap-2 md:gap-2 px-10 lg:max-w-[800px] lg:mx-auto"
+      >
+        <h1 className="text-xl font-bold text-center mb-2">Crear Cuenta</h1>
+        <div className="flex flex-col gap-2 md:gap-8">
+          <div className="flex flex-col gap-2 md:gap-12 md:flex-row">
+            <div className="grow flex flex-col gap-2">
+              <input
+                className={clsx(errors.firstName && "input-error", "grow")}
+                type="text"
+                {...register("firstName")}
+                placeholder="Nombre*"
+              />
+              <p className="error-p">{errors.firstName?.message}</p>
+            </div>
+            <div className="grow flex flex-col gap-2">
+              <input
+                className={clsx(errors.lastName && "input-error", "grow")}
+                type="text"
+                {...register("lastName")}
+                placeholder="Apellido*"
+              />
+              <p className="error-p">{errors.lastName?.message}</p>
+            </div>
+          </div>
 
-      <p className="error-p">{errors.identification?.message}</p>
+          <div className="flex flex-col gap-2 md:gap-4">
+            <div className="flex flex-col gap-2 md:gap-12 md:flex-row">
+              <div className="grow flex flex-col gap-2">
+                <input
+                  className={clsx(errors.identification && "input-error")}
+                  type="number"
+                  {...register("identification")}
+                  placeholder="DNI*"
+                />
 
-      <input
-        className={clsx(errors.email && "input-error")}
-        type="email"
-        {...register("email")}
-        placeholder="Correo electrónico*"
-      />
-      <p className="error-p">{errors.email?.message}</p>
-      <p className="text-justify text-[12px]">
-        Usa entre 6 y 20 carácteres (debe contener al menos al menos 1 carácter
-        especial, una mayúscula y un número).
-      </p>
-      <input
-        className={clsx(errors.password && "input-error")}
-        {...register("password")}
-        type="password"
-        placeholder="Contraseña*"
-      />
-      <p className="error-p">{errors.password?.message}</p>
-      <input
-        className={clsx(errors.confirmPassword && "input-error")}
-        {...register("confirmPassword")}
-        type="password"
-        placeholder="Confirmar contraseña*"
-      />
+                <p className="error-p">{errors.identification?.message}</p>
+              </div>
+              <div className="grow flex flex-col gap-2">
+                <input
+                  className={clsx(errors.email && "input-error")}
+                  type="email"
+                  {...register("email")}
+                  placeholder="Correo electrónico*"
+                />
+                <p className="error-p">{errors.email?.message}</p>
+              </div>
+            </div>
 
-      <p className="error-p">{errors.confirmPassword?.message}</p>
+            <p className="text-justify text-[12px]">
+              Usa entre 6 y 20 carácteres (debe contener al menos al menos 1
+              carácter especial, una mayúscula y un número).
+            </p>
+            {/* <div className="max-md:hidden"></div> */}
 
-      <input
-        className={clsx(errors.phone && "input-error")}
-        type="tel"
-        {...register("phone")}
-        placeholder="Teléfono*"
-      />
-      <p className="error-p">{errors.phone?.message}</p>
+            <div className="flex flex-col gap-2 md:gap-12 md:flex-row">
+              <div className="grow flex flex-col gap-2">
+                <input
+                  className={clsx(errors.password && "input-error")}
+                  {...register("password")}
+                  type="password"
+                  placeholder="Contraseña*"
+                />
+                <p className="error-p">{errors.password?.message}</p>
+              </div>
+              <div className="grow flex flex-col gap-2">
+                <input
+                  className={clsx(errors.confirmPassword && "input-error")}
+                  {...register("confirmPassword")}
+                  type="password"
+                  placeholder="Confirmar contraseña*"
+                />
 
-      <button className="mt-4 btn btn-primary">Crear Cuenta</button>
-    </form>
+                <p className="error-p">{errors.confirmPassword?.message}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 md:gap-12 md:flex-row">
+            <div className="grow flex flex-col gap-2 md:basis-1/2">
+              <input
+                className={clsx(errors.phone && "input-error")}
+                type="tel"
+                {...register("phone")}
+                placeholder="Teléfono*"
+              />
+              <p className="error-p">{errors.phone?.message}</p>
+            </div>
+
+            <div className="grow flex flex-col gap-2 md:basis-1/2">
+              <button className="max-md:mt-4 btn btn-primary">
+                Crear Cuenta
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 };
 

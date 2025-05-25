@@ -49,8 +49,6 @@ const page = () => {
     const email = getValuesEmail("email");
     const password = data.password;
 
-    console.log({ email, password });
-
     try {
       const response = await axios.post(`/api/login`, { email, password });
       console.log(response.data);
@@ -66,55 +64,63 @@ const page = () => {
   });
 
   return (
-    <div className="my-[50%] px-10 md:mx-[30%] md:max-w-[500px]">
-      {/* STEP 1 */}
-      {steps === "one" && (
-        <form onSubmit={onSubmitEmail} className="flex flex-col gap-4">
-          <label htmlFor="email" className="font-bold text-xl text-center">
-            ¡Hola! Ingresá tu e-mail
-          </label>
-          <input
-            id="email"
-            placeholder="Correo electrónico"
-            className={clsx(errorsEmail.email && "input-error")}
-            {...registerEmail("email")}
-          />
-          <button className="btn btn-primary">Continuar</button>
-          <Link className="btn btn-primary" href={"/signup"}>
-            Crear cuenta
-          </Link>
-          {errorsEmail.email && (
-            <p className="error-p">{errorsEmail.email?.message}</p>
-          )}
-          {incorrectCredentials && (
-            <p className="error-p">
-              Credenciales incorrectas, intentá nuevamente
-            </p>
-          )}
-        </form>
-      )}
+    <div className="absolute inset-0 grid place-items-center">
+      <div className="px-10 md:flex justify-center md:pb-40">
+        {/* STEP 1 */}
+        {steps === "one" && (
+          <form
+            onSubmit={onSubmitEmail}
+            className="flex flex-col gap-4 md:w-[360px]"
+          >
+            <label htmlFor="email" className="font-bold text-xl text-center">
+              ¡Hola! Ingresá tu e-mail
+            </label>
+            <input
+              id="email"
+              placeholder="Correo electrónico"
+              className={clsx(errorsEmail.email && "input-error")}
+              {...registerEmail("email")}
+            />
+            <button className="btn btn-primary">Continuar</button>
+            <Link className="btn btn-primary" href={"/signup"}>
+              Crear cuenta
+            </Link>
+            {errorsEmail.email && (
+              <p className="error-p">{errorsEmail.email?.message}</p>
+            )}
+            {incorrectCredentials && (
+              <p className="error-p">
+                Credenciales incorrectas, intentá nuevamente
+              </p>
+            )}
+          </form>
+        )}
 
-      {/* STEP 2 */}
-      {steps === "two" && (
-        <form onSubmit={onSubmitPassword} className="flex flex-col gap-4">
-          <label htmlFor="password" className="font-bold text-xl text-center">
-            Ingresá tu contraseña
-          </label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Contraseña"
-            {...registerPassword("password")}
-            className={clsx(errorsPassword.password && "input-error")}
-          />
-          <button className="btn btn-primary" disabled={isLoading}>
-            Ingresar
-          </button>
-          {errorsPassword.password && (
-            <p className="error-p">{errorsPassword.password?.message}</p>
-          )}
-        </form>
-      )}
+        {/* STEP 2 */}
+        {steps === "two" && (
+          <form
+            onSubmit={onSubmitPassword}
+            className="flex flex-col gap-4 md:w-[360px]"
+          >
+            <label htmlFor="password" className="font-bold text-xl text-center">
+              Ingresá tu contraseña
+            </label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Contraseña"
+              {...registerPassword("password")}
+              className={clsx(errorsPassword.password && "input-error")}
+            />
+            <button className="btn btn-primary" disabled={isLoading}>
+              Ingresar
+            </button>
+            {errorsPassword.password && (
+              <p className="error-p">{errorsPassword.password?.message}</p>
+            )}
+          </form>
+        )}
+      </div>
     </div>
   );
 };

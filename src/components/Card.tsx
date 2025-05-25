@@ -4,9 +4,11 @@ import React from "react";
 const Card = ({
   children,
   style = "white",
+  className,
 }: {
   children: React.ReactNode;
   style?: "white" | "black" | "green";
+  className?: string;
 }) => {
   return (
     <div
@@ -14,7 +16,8 @@ const Card = ({
         "p-4 rounded-3xl",
         style === "white" && "bg-brand-white text-brand-black",
         style === "black" && "bg-brand-black text-brand-white",
-        style === "green" && "bg-brand-green text-brand-black"
+        style === "green" && "bg-brand-green text-brand-black",
+        className
       )}
     >
       {children}
