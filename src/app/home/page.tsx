@@ -1,4 +1,4 @@
-import LandingPage from "@/components/home/LandingPage";
+import LandingPage from "@/components/LandingPage/LandingPage";
 import { getServerAuthStatus } from "@/utils/server";
 import { redirect } from "next/navigation";
 

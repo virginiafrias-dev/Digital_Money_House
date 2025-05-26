@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import LandingPage from "./LandingPage";
+import LandingPage from "../home/LandingPage";
 
 jest.mock("../Card/Card", () => ({ children, className }: any) => (
   <div data-testid="card" className={className}>

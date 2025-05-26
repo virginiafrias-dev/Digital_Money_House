@@ -1,19 +1,9 @@
 import Header from "@/components/Header/Header";
 import clsx from "clsx";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Open_Sans } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import React from "react";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -33,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${openSans.variable} ${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-dvh`}
+        className={`${openSans.variable} antialiased flex flex-col min-h-dvh`}
       >
         <Header />
         <main className={clsx("grow relative overflow-y-auto")}>

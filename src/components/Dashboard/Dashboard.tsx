@@ -7,10 +7,11 @@ import ArrowRight from "@/public/icons/arrow-right";
 
 const moneyAvailable = 6890534.17;
 
-const HomePage = () => {
+const Dashboard = () => {
   return (
     <div className="absolute inset-0">
       <PageTitle text="Inicio" />
+
       <div className="px-5 flex flex-col gap-5 pb-5">
         {/* Black CC */}
         <Card style="black" className="flex flex-col gap-2 p-6! shadow-lg">
@@ -115,4 +116,4 @@ const ActivityCard = () => (
   </Card>
 );
 
-export default HomePage;
+export default Dashboard;
