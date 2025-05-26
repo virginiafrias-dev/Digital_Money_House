@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     const cookieStore = await cookies();
     cookieStore.set("Authorization", token);
 
-    return Response.json(200);
+    return Response.json({ message: "Login exitoso" }, { status: 200 });
   } catch (error) {
     return Response.error();
   }

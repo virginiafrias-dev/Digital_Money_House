@@ -1,4 +1,6 @@
 "use client";
+import React from "react";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import clsx from "clsx";
@@ -50,8 +52,7 @@ const page = () => {
     const password = data.password;
 
     try {
-      const response = await axios.post(`/api/login`, { email, password });
-      console.log(response.data);
+      await axios.post(`/api/login`, { email, password });
       location.href = "/home";
     } catch (error) {
       console.error(error);
@@ -77,11 +78,14 @@ const page = () => {
             </label>
             <input
               id="email"
+              data-testid="email-input"
               placeholder="Correo electrónico"
               className={clsx(errorsEmail.email && "input-error")}
               {...registerEmail("email")}
             />
-            <button className="btn btn-primary">Continuar</button>
+            <button data-testid="continuar-button" className="btn btn-primary">
+              Continuar
+            </button>
             <Link className="btn btn-primary" href={"/signup"}>
               Crear cuenta
             </Link>
@@ -107,12 +111,17 @@ const page = () => {
             </label>
             <input
               id="password"
+              data-testid="password-input"
               type="password"
               placeholder="Contraseña"
               {...registerPassword("password")}
               className={clsx(errorsPassword.password && "input-error")}
             />
-            <button className="btn btn-primary" disabled={isLoading}>
+            <button
+              data-testid="ingresar-button"
+              className="btn btn-primary"
+              disabled={isLoading}
+            >
               Ingresar
             </button>
             {errorsPassword.password && (

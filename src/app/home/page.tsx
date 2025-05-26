@@ -1,4 +1,5 @@
-"use client";
+("use client");
+import React from "react";
 import HomePage from "@/components/home/HomePage";
 import LandingPage from "@/components/home/LandingPage";
 import { getToken } from "@/utils";
@@ -27,7 +28,7 @@ export default function Home() {
         )
       ) : (
         <div
-          data-test-id="spinner"
+          data-testid="spinner"
           className="bg-brand-black md:bg-brand-green flex grow min-h-full justify-center pt-[20%]"
         >
           <div className="h-10 w-10 bg-brand-green md:bg-brand-black rounded-full relative animate-spin transition transform flex justify-center items-center">

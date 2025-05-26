@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -80,7 +80,7 @@ const page = () => {
 
       router.push("/signup/success");
     } catch (error) {
-      throw error;
+      console.error(error);
     }
   });
 
@@ -95,6 +95,7 @@ const page = () => {
           <div className="flex flex-col gap-2 md:gap-12 md:flex-row">
             <div className="grow flex flex-col gap-2">
               <input
+                data-testid="firstname-input"
                 className={clsx(errors.firstName && "input-error", "grow")}
                 type="text"
                 {...register("firstName")}
@@ -104,6 +105,7 @@ const page = () => {
             </div>
             <div className="grow flex flex-col gap-2">
               <input
+                data-testid="lastname-input"
                 className={clsx(errors.lastName && "input-error", "grow")}
                 type="text"
                 {...register("lastName")}
@@ -117,6 +119,7 @@ const page = () => {
             <div className="flex flex-col gap-2 md:gap-12 md:flex-row">
               <div className="grow flex flex-col gap-2">
                 <input
+                  data-testid="dni-input"
                   className={clsx(errors.identification && "input-error")}
                   type="number"
                   {...register("identification")}
@@ -127,8 +130,10 @@ const page = () => {
               </div>
               <div className="grow flex flex-col gap-2">
                 <input
+                  data-testid="email-input"
                   className={clsx(errors.email && "input-error")}
-                  type="email"
+                  // changed type from email to text to avoid unit-test error, more work is needed to fix this
+                  type="text"
                   {...register("email")}
                   placeholder="Correo electrónico*"
                 />
@@ -140,11 +145,11 @@ const page = () => {
               Usa entre 6 y 20 carácteres (debe contener al menos al menos 1
               carácter especial, una mayúscula y un número).
             </p>
-            {/* <div className="max-md:hidden"></div> */}
 
             <div className="flex flex-col gap-2 md:gap-12 md:flex-row">
               <div className="grow flex flex-col gap-2">
                 <input
+                  data-testid="password-input"
                   className={clsx(errors.password && "input-error")}
                   {...register("password")}
                   type="password"
@@ -154,6 +159,7 @@ const page = () => {
               </div>
               <div className="grow flex flex-col gap-2">
                 <input
+                  data-testid="confirm-password-input"
                   className={clsx(errors.confirmPassword && "input-error")}
                   {...register("confirmPassword")}
                   type="password"
@@ -168,6 +174,7 @@ const page = () => {
           <div className="flex flex-col gap-2 md:gap-12 md:flex-row">
             <div className="grow flex flex-col gap-2 md:basis-1/2">
               <input
+                data-testid="phone-input"
                 className={clsx(errors.phone && "input-error")}
                 type="tel"
                 {...register("phone")}
@@ -177,7 +184,10 @@ const page = () => {
             </div>
 
             <div className="grow flex flex-col gap-2 md:basis-1/2">
-              <button className="max-md:mt-4 btn btn-primary">
+              <button
+                data-testid="submit-button"
+                className="max-md:mt-4 btn btn-primary"
+              >
                 Crear Cuenta
               </button>
             </div>

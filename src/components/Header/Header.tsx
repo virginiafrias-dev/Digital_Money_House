@@ -1,11 +1,11 @@
 "use client";
+import React, { useEffect, useMemo, useState } from "react";
 import LogoNegro from "@/public/icons/logo-negro";
 import LogoVerde from "@/public/icons/logo-verde";
 import { getToken } from "@/utils";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useMemo, useState } from "react";
 
 const Header = () => {
   const [token, setToken] = useState("");
@@ -46,7 +46,11 @@ const Header = () => {
       {isOnSignupOrLogin ? (
         <>
           {pathName === "/signup" ? (
-            <Link className="btn btn-header btn-tertiary" href={"/login"}>
+            <Link
+              data-testid="login-button-on-signup"
+              className="btn btn-header btn-tertiary"
+              href={"/login"}
+            >
               Iniciar sesión
             </Link>
           ) : null}
@@ -54,15 +58,27 @@ const Header = () => {
       ) : (
         <nav className="flex gap-5 py-2">
           {token ? (
-            <Link className="btn btn-header btn-secondary" href={"/logout"}>
+            <Link
+              data-testid="logout-button"
+              className="btn btn-header btn-secondary"
+              href={"/logout"}
+            >
               Cerrar sesión
             </Link>
           ) : (
-            <Link className="btn btn-header btn-secondary" href={"/login"}>
+            <Link
+              data-testid="login-button-on-home"
+              className="btn btn-header btn-secondary"
+              href={"/login"}
+            >
               Ingresar
             </Link>
           )}
-          <Link className="btn btn-header btn-primary" href={"/signup"}>
+          <Link
+            data-testid="signup-button"
+            className="btn btn-header btn-primary"
+            href={"/signup"}
+          >
             Crear cuenta
           </Link>
         </nav>

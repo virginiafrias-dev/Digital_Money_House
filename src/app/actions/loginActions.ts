@@ -2,14 +2,11 @@ import axios from "axios";
 
 export const getAccountInfo = async () => {
   try {
-    const response = await axios.get(
-      "https://digitalmoney.digitalhouse.com/api/account",
-      {
-        headers: {
-          api_key: process.env.TOKEN,
-        },
-      }
-    );
+    const response = await axios.get(process.env.BASE_URL + "/api/account", {
+      headers: {
+        api_key: process.env.TOKEN,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error al obtener la cuenta:", error);
