@@ -1,31 +1,11 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --brand: red;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @theme {
   --color-brand-black: #201f22;
   --color-brand-gray: #3a393e;
@@ -33,7 +13,11 @@ body {
   --color-brand-white: #eeeaea;
 }
 
-button,
+body {
+  font-family: var(--font-open-sans), Arial, Helvetica, sans-serif;
+  @apply text-brand-black bg-brand-white;
+}
+
 .btn {
   @apply text-center cursor-pointer disabled:cursor-not-allowed! max-[370px]:text-sm text-base px-5 py-3 border rounded-xl font-bold;
 }

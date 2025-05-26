@@ -13,7 +13,7 @@ const Card = ({
   return (
     <div
       className={clsx(
-        "p-4 rounded-3xl",
+        "p-4 rounded-[10]",
         style === "white" && "bg-brand-white text-brand-black",
         style === "black" && "bg-brand-black text-brand-white",
         style === "green" && "bg-brand-green text-brand-black",

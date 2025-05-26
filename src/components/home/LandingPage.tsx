@@ -36,7 +36,7 @@ const LandingPage = () => {
       <div className="px-5 md:px-13 py-10 md:py-20 flex flex-col gap-6">
         <p
           data-testid="title-mobile"
-          className="text-[27px] leading-[32px] font-semibold md:hidden"
+          className="text-[27px] leading-[32px] font-semibold md:hidden text-white"
         >
           De ahora <br />
           en adelante, <br />
@@ -45,7 +45,7 @@ const LandingPage = () => {
         </p>
         <p
           data-testid="title-tablet-and-up"
-          className="text-5xl leading-[50px] max-md:hidden"
+          className="text-5xl leading-[50px] max-md:hidden text-white"
         >
           De ahora en <br />
           adelante, hacés <br />
@@ -61,7 +61,7 @@ const LandingPage = () => {
         </p>
       </div>
       <div className="flex flex-col relative">
-        <div className="absolute bg-brand-green rounded-t-xl md:rounded-t-[48px] top-10 md:top-20 -bottom-0.5 left-0 right-0"></div>
+        <div className="absolute bg-brand-green rounded-t-xl md:rounded-t-[48px] top-10 md:top-20 bottom-0 left-0 right-0"></div>
         <div className="px-5 z-[100] flex flex-col gap-5 pb-5 md:pb-15 md:items-center lg:flex-row lg:items-stretch mx-auto">
           {cardsInfo.map((card) => (
             <LandingPageCard
@@ -91,7 +91,7 @@ const LandingPageCard = ({
   return (
     <Card
       data-testid={dataTestId}
-      className="md:p-6 md:w-[597px] lg:w-[500px] shadow"
+      className="md:p-6 md:w-[597px] lg:w-[500px] shadow rounded-3xl!"
     >
       <div className="flex flex-col">
         <p className="font-bold text-[28px] md:text-[40px] mb-2 md:mb-1">

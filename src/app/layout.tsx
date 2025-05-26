@@ -1,9 +1,9 @@
-import React from "react";
 import Header from "@/components/Header/Header";
+import clsx from "clsx";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Open_Sans } from "next/font/google";
+import React from "react";
 import "./globals.css";
-import MainSectionWrapper from "@/components/MainSectionWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,6 +12,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
   subsets: ["latin"],
 });
 
@@ -28,10 +33,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-dvh`}
+        className={`${openSans.variable} ${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-dvh`}
       >
         <Header />
-        <MainSectionWrapper>{children}</MainSectionWrapper>
+        <main className={clsx("grow relative overflow-y-auto")}>
+          {children}
+        </main>
         <footer className="py-5 bg-brand-gray text-brand-green flex max-md:justify-center">
           <p className="text-[13px] md:pl-5">© 2022 Digital Money House</p>
         </footer>

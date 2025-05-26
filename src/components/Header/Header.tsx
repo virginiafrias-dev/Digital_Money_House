@@ -1,24 +1,16 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 import LogoNegro from "@/public/icons/logo-negro";
 import LogoVerde from "@/public/icons/logo-verde";
-import { getToken } from "@/utils";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useMemo } from "react";
+import HamburgerMenuButton from "../HamburgerMenuButton/HamburgerMenuButton";
 
 const Header = () => {
-  const [token, setToken] = useState("");
-
+  const { isAuthenticated } = useAuth();
   const pathName = usePathname();
-
-  useEffect(() => {
-    const readToken = async () => {
-      const tokenResult = await getToken();
-      setToken(tokenResult || "");
-    };
-    readToken();
-  }, []);
 
   const isOnSignupOrLogin = useMemo(
     () =>
@@ -27,7 +19,6 @@ const Header = () => {
       pathName === "/signup/success",
     [pathName]
   );
-
   return (
     <header
       className={clsx(
@@ -35,7 +26,7 @@ const Header = () => {
         isOnSignupOrLogin ? "bg-brand-green" : "bg-brand-black"
       )}
     >
-      <Link href={"/home"}>
+      <Link href={isAuthenticated ? "/dashboard" : "/home"}>
         {isOnSignupOrLogin ? (
           <LogoNegro className="sm:w-16 sm:h-16 max-sm:h-15 max-sm:w-15" />
         ) : (
@@ -44,47 +35,75 @@ const Header = () => {
       </Link>
 
       {isOnSignupOrLogin ? (
-        <>
-          {pathName === "/signup" ? (
-            <Link
-              data-testid="login-button-on-signup"
-              className="btn btn-header btn-tertiary"
-              href={"/login"}
-            >
-              Iniciar sesión
-            </Link>
-          ) : null}
-        </>
+        <AuthenticationNav pathName={pathName} />
       ) : (
-        <nav className="flex gap-5 py-2">
-          {token ? (
-            <Link
-              data-testid="logout-button"
-              className="btn btn-header btn-secondary"
-              href={"/logout"}
-            >
-              Cerrar sesión
-            </Link>
-          ) : (
-            <Link
-              data-testid="login-button-on-home"
-              className="btn btn-header btn-secondary"
-              href={"/login"}
-            >
-              Ingresar
-            </Link>
-          )}
-          <Link
-            data-testid="signup-button"
-            className="btn btn-header btn-primary"
-            href={"/signup"}
-          >
-            Crear cuenta
-          </Link>
-        </nav>
+        <DefaultNav isAuthenticated={isAuthenticated} pathName={pathName} />
       )}
     </header>
   );
 };
+
+interface AuthenticationNavProps {
+  pathName: string;
+}
+
+const AuthenticationNav = ({ pathName }: AuthenticationNavProps) =>
+  pathName === "/signup" ? (
+    <Link
+      data-testid="login-button-on-signup"
+      className="btn btn-header btn-tertiary"
+      href={"/login"}
+    >
+      Iniciar sesión
+    </Link>
+  ) : null;
+
+interface LandingPageNavProps {
+  isAuthenticated: boolean;
+}
+
+const LandingPageNav = ({ isAuthenticated }: LandingPageNavProps) => (
+  <>
+    <Link
+      data-testid="logout-button"
+      className="btn btn-header btn-secondary"
+      href={isAuthenticated ? "/logout" : "/login"}
+    >
+      {isAuthenticated ? "Cerrar sesión" : "Ingresar"}
+    </Link>
+    <Link
+      data-testid="signup-button"
+      className="btn btn-header btn-primary"
+      href={"/signup"}
+    >
+      Crear cuenta
+    </Link>
+  </>
+);
+
+interface DefaultNavProps {
+  isAuthenticated: boolean;
+  pathName: string;
+}
+
+const DefaultNav = ({ isAuthenticated, pathName }: DefaultNavProps) => (
+  <nav className="flex gap-5 py-2">
+    {pathName === "/" || pathName === "/home" ? (
+      <LandingPageNav isAuthenticated={isAuthenticated} />
+    ) : (
+      <>
+        <Link
+          href={"/profile"}
+          className="w-10 h-8 bg-brand-green text-brand-black font-bold grid place-items-center rounded-lg"
+        >
+          MB
+        </Link>
+        <form action="/logout" className="grid place-items-center">
+          <HamburgerMenuButton />
+        </form>
+      </>
+    )}
+  </nav>
+);
 
 export default Header;
