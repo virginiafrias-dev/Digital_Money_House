@@ -1,4 +1,4 @@
-("use client");
+"use client";
 import React from "react";
 import HomePage from "@/components/home/HomePage";
 import LandingPage from "@/components/home/LandingPage";
