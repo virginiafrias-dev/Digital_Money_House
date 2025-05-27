@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import HamburgerMenuButton from "../HamburgerMenuButton/HamburgerMenuButton";
+import { SideNavMobile } from "../SideNav/SideNav";
 
 const Header = () => {
   const { isAuthenticated } = useAuth();
@@ -22,7 +23,7 @@ const Header = () => {
   return (
     <header
       className={clsx(
-        "flex justify-between items-center h-16 px-5",
+        "flex justify-between items-center h-16 px-5 z-[100]",
         isOnSignupOrLogin ? "bg-brand-green" : "bg-brand-black"
       )}
     >
@@ -98,6 +99,12 @@ interface UserData {
 const DefaultNav = ({ isAuthenticated, pathName }: DefaultNavProps) => {
   const [userData, setUserData] = useState<UserData>({} as UserData);
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
   const getInfo = async () => {
     const response = await fetch("/api/user");
     const data = await response.json();
@@ -123,12 +130,19 @@ const DefaultNav = ({ isAuthenticated, pathName }: DefaultNavProps) => {
         <>
           <Link
             href={"/profile"}
-            className="w-10 h-8 bg-brand-green text-brand-black font-bold grid place-items-center rounded-lg"
+            className="w-10 h-8 bg-brand-green text-brand-black font-bold grid place-items-center rounded-lg md:text-xl"
           >
             {initials}
           </Link>
+          {isAuthenticated && (
+            <SideNavMobile
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+              name={`${userData.firstname} ${userData.lastname}`}
+            />
+          )}
           <div className="grid place-items-center md:hidden">
-            <HamburgerMenuButton />
+            <HamburgerMenuButton onClick={toggleMenu} />
           </div>
           <p className="text-white font-bold flex items-center max-md:hidden">
             Hola, {userData.firstname} {userData.lastname}

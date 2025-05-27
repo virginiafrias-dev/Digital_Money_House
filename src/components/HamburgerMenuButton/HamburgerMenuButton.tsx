@@ -1,8 +1,15 @@
 import React from "react";
 
-const HamburgerMenuButton = () => {
+interface Props {
+  onClick: () => void;
+}
+
+const HamburgerMenuButton = ({ onClick }: Props) => {
   return (
-    <button className="flex items-center justify-center flex-col gap-[7px] cursor-pointer">
+    <button
+      onClick={onClick}
+      className="flex items-center justify-center flex-col gap-[7px] cursor-pointer"
+    >
       <div className="w-[33px] border-2 border-brand-green rounded-full"></div>
       <div className="w-[33px] border-2 border-brand-green rounded-full"></div>
       <div className="w-[33px] border-2 border-brand-green rounded-full"></div>
