@@ -5,15 +5,33 @@ export const getAccountInfo = async () => {
   try {
     const token = await getServerToken();
 
-    // const response = await axios.get(process.env.BASE_URL + "/api/account", {
-    //   headers: {
-    //     api_key: token,
-    //   },
-    // });
-    // return response.data;
-    return token;
+    const response = await axios.get(process.env.BASE_URL + "/api/account", {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return response.data;
   } catch (error) {
     console.error("Error al obtener la cuenta:", error);
+    throw error;
+  }
+};
+
+export const getUserData = async () => {
+  try {
+    const token = await getServerToken();
+    const accountInfo = await getAccountInfo();
+    const response = await axios.get(
+      process.env.BASE_URL + `/api/users/${accountInfo.user_id}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener la información del usuario:", error);
     throw error;
   }
 };

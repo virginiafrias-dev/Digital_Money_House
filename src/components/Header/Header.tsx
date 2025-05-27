@@ -5,7 +5,7 @@ import LogoVerde from "@/public/icons/logo-verde";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import HamburgerMenuButton from "../HamburgerMenuButton/HamburgerMenuButton";
 
 const Header = () => {
@@ -86,22 +86,57 @@ interface DefaultNavProps {
   pathName: string;
 }
 
-const DefaultNav = ({ isAuthenticated, pathName }: DefaultNavProps) => (
-  <nav className="flex gap-5 py-2">
-    {pathName === "/" || pathName === "/home" ? (
-      <LandingPageNav isAuthenticated={isAuthenticated} />
-    ) : (
-      <>
-        <Link
-          href={"/profile"}
-          className="w-10 h-8 bg-brand-green text-brand-black font-bold grid place-items-center rounded-lg"
-        >
-          FA
-        </Link>
-        <HamburgerMenuButton />
-      </>
-    )}
-  </nav>
-);
+interface UserData {
+  dni: number;
+  email: string;
+  firstname: string;
+  id: number;
+  lastname: string;
+  phone: string;
+}
+
+const DefaultNav = ({ isAuthenticated, pathName }: DefaultNavProps) => {
+  const [userData, setUserData] = useState<UserData>({} as UserData);
+
+  const getInfo = async () => {
+    const response = await fetch("/api/user");
+    const data = await response.json();
+
+    setUserData(data);
+  };
+
+  const initials = useMemo(() => {
+    const firstNameInitial = userData.firstname?.at(0)?.toUpperCase() ?? "";
+    const lastNameInitial = userData.lastname?.at(0)?.toUpperCase() ?? "";
+    return firstNameInitial + lastNameInitial;
+  }, [userData]);
+
+  useEffect(() => {
+    if (isAuthenticated) getInfo();
+  }, [isAuthenticated]);
+
+  return (
+    <nav className="flex gap-5 py-2">
+      {pathName === "/" || pathName === "/home" ? (
+        <LandingPageNav isAuthenticated={isAuthenticated} />
+      ) : (
+        <>
+          <Link
+            href={"/profile"}
+            className="w-10 h-8 bg-brand-green text-brand-black font-bold grid place-items-center rounded-lg"
+          >
+            {initials}
+          </Link>
+          <div className="grid place-items-center md:hidden">
+            <HamburgerMenuButton />
+          </div>
+          <p className="text-white font-bold flex items-center max-md:hidden">
+            Hola, {userData.firstname} {userData.lastname}
+          </p>
+        </>
+      )}
+    </nav>
+  );
+};
 
 export default Header;
