@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import React from "react";
 import "./globals.css";
+import SideNav from "@/components/SideNav/SideNav";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -26,9 +27,12 @@ export default function RootLayout({
         className={`${openSans.variable} antialiased flex flex-col min-h-dvh`}
       >
         <Header />
-        <main className={clsx("grow relative overflow-y-auto")}>
-          {children}
-        </main>
+        <div className="flex grow">
+          <SideNav />
+          <main className={clsx("grow relative overflow-y-auto")}>
+            {children}
+          </main>
+        </div>
         <footer className="py-5 bg-brand-gray text-brand-green flex max-md:justify-center">
           <p className="text-[13px] md:pl-5">© 2022 Digital Money House</p>
         </footer>

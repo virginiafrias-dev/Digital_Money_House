@@ -96,11 +96,9 @@ const DefaultNav = ({ isAuthenticated, pathName }: DefaultNavProps) => (
           href={"/profile"}
           className="w-10 h-8 bg-brand-green text-brand-black font-bold grid place-items-center rounded-lg"
         >
-          MB
+          FA
         </Link>
-        <form action="/logout" className="grid place-items-center">
-          <HamburgerMenuButton />
-        </form>
+        <HamburgerMenuButton />
       </>
     )}
   </nav>

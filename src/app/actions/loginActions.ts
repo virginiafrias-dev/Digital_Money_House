@@ -1,13 +1,17 @@
+import { getServerToken } from "@/utils/server";
 import axios from "axios";
 
 export const getAccountInfo = async () => {
   try {
-    const response = await axios.get(process.env.BASE_URL + "/api/account", {
-      headers: {
-        api_key: process.env.TOKEN,
-      },
-    });
-    return response.data;
+    const token = await getServerToken();
+
+    // const response = await axios.get(process.env.BASE_URL + "/api/account", {
+    //   headers: {
+    //     api_key: token,
+    //   },
+    // });
+    // return response.data;
+    return token;
   } catch (error) {
     console.error("Error al obtener la cuenta:", error);
     throw error;

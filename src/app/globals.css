@@ -39,7 +39,7 @@ body {
 }
 
 input {
-  @apply bg-white text-brand-black placeholder-black/50 rounded-xl text-base px-6 py-3 shadow-md border border-transparent ring-2 focus:ring-brand-green focus:outline-none;
+  @apply bg-white text-brand-black placeholder-black/50 rounded-xl text-base px-6 py-3 shadow-md border border-brand-white ring-2 focus:ring-brand-green focus:outline-none;
 }
 
 .error-p {
@@ -52,4 +52,13 @@ input {
 
 .header {
   background: var(--brand);
+}
+
+.sidenav-link {
+  @apply text-[17px] font-semibold;
+}
+
+.sidenav-link:hover,
+.sidenav-link.active {
+  @apply font-black;
 }

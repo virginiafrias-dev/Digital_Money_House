@@ -1,4 +1,5 @@
 import Card from "@/components/Card/Card";
+import { DividerLine } from "@/components/DividerLine";
 import PageTitle from "@/components/PageTitle/PageTitle";
 import ArrowRight from "@/public/icons/arrow-right";
 import CarbonCopy from "@/public/icons/carbon-copy";
@@ -32,7 +33,7 @@ const ProfilePage = () => {
         <PersonalInfo />
 
         {/* Link to payment methods */}
-        <Link href={"/transactions"}>
+        <Link href={"/payment-methods"}>
           <Card
             style="green"
             className="flex justify-between items-center shadow-lg py-[22px]"
@@ -112,7 +113,5 @@ const BankingInfo = () => (
     </div>
   </Card>
 );
-
-const DividerLine = () => <div className="h-px bg-brand-white" />;
 
 export default ProfilePage;
