@@ -19,7 +19,7 @@ const LINKS = [
     label: "Tu perfil",
   },
   {
-    path: "/transactions",
+    path: "/add-money",
     label: "Cargar dinero",
   },
   {
@@ -56,7 +56,7 @@ const SideNav = () => {
   }
 
   return (
-    <nav className="max-xl:w-[25%] xl:w-[300px] bg-brand-green flex flex-col gap-4 p-10 max-md:hidden">
+    <nav className="max-xl:w-[221px] xl:w-[300px] bg-brand-green flex flex-col gap-4 p-10 max-md:hidden">
       {LINKS.map((link) => (
         <Link
           key={link.path + "Desktop"}

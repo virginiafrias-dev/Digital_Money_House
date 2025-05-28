@@ -1,7 +1,5 @@
-import Card from "@/components/Card/Card";
 import CreditCardForm from "@/components/CreditCardForm";
 import PageTitle from "@/components/PageTitle/PageTitle";
-import React from "react";
 
 const NewPaymentMethodPage = () => {
   return (

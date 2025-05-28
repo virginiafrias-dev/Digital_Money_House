@@ -86,7 +86,7 @@ const PersonalInfoItem = ({
   </>
 );
 
-const BankingInfo = () => (
+export const BankingInfo = () => (
   <Card style="black" className="flex flex-col gap-6 p-6! shadow-lg">
     <p className="text-sm">
       Copia tu CVU o alias para ingresar o transferir dinero desde otra cuenta

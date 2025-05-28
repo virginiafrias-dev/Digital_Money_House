@@ -42,6 +42,10 @@ input {
   @apply bg-white text-brand-black placeholder-black/50 rounded-xl text-base px-6 py-3 shadow-md border border-brand-white ring-2 focus:ring-brand-green focus:outline-none;
 }
 
+button {
+  @apply cursor-pointer;
+}
+
 .error-p {
   @apply text-red-600 text-center;
 }

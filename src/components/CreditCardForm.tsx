@@ -12,14 +12,14 @@ const CreditCardForm = () => {
     focus: "",
   });
 
-  const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleInputFocus = (e: React.FocusEvent<HTMLInputElement, Element>) => {
     setCardData((prev) => ({
       ...prev,
       focus: e.target.name,
     }));
   };
 
-  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleInputBlur = () => {
     setCardData((prev) => ({
       ...prev,
       focus: "",

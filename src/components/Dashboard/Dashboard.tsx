@@ -51,7 +51,7 @@ const Dashboard = () => {
 
         {/* Green links */}
         <div className="flex flex-col gap-5 lg:flex-row">
-          <Link href={"/transactions"} className="lg:grow">
+          <Link href={"/add-money"} className="lg:grow">
             <Card
               style="green"
               className="grid place-items-center shadow-lg py-[22px] lg:py-10"
