@@ -1,12 +1,15 @@
 import Card from "@/components/Card/Card";
-import { DividerLine } from "@/components/DividerLine";
 import PageTitle from "@/components/PageTitle/PageTitle";
+import ActivityCardItem from "@/components/PaymentMethods/ActivityCardItem";
 import ArrowRight from "@/public/icons/arrow-right";
 import Plus from "@/public/icons/plus";
 import Link from "next/link";
-import React from "react";
+import { getCards } from "../actions/cardsActions";
 
-const PaymentMethodsPage = () => {
+const PaymentMethodsPage = async () => {
+  const cards = await getCards();
+  console.log(cards);
+
   return (
     <div className="absolute inset-0">
       <PageTitle text="Tarjetas" />
@@ -30,32 +33,31 @@ const PaymentMethodsPage = () => {
         </Link>
 
         {/* Cards */}
-        <ActivityCard />
+        <ActivityCard cards={cards} />
       </div>
     </div>
   );
 };
 
-const ActivityCardItem = () => (
-  <div className="flex flex-col gap-6">
-    <DividerLine />
-    <div className="flex gap-3 items-center pb-6">
-      <div className="bg-brand-green rounded-full w-6 h-6" />
-      <p className="text-sm grow">Terminada en 4067</p>
-      <button>
-        <p className="text-black text-xs font-bold">Eliminar</p>
-      </button>
-    </div>
-  </div>
-);
+interface Card {
+  id: number;
+  account_id: number;
+  number_id: number;
+  first_last_name: string;
+  cod: number;
+  expiration_date: string;
+}
 
-const ActivityCard = () => (
+const ActivityCard = ({ cards }: { cards: Card[] }) => (
   <Card className="bg-white flex flex-col p-6! shadow-lg">
-    <p className="font-bold mb-4">Tu actividad</p>
+    <p className="font-bold mb-4">Tus tarjetas</p>
 
-    <ActivityCardItem />
-    <ActivityCardItem />
-    <ActivityCardItem />
+    {cards.map((card) => (
+      <ActivityCardItem
+        key={card.id}
+        cardInfo={{ id: card.id, number_id: card.number_id }}
+      />
+    ))}
   </Card>
 );
 
