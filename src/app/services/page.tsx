@@ -6,21 +6,21 @@ import LookingGlass from "@/public/icons/looking-glass";
 const SERVICES = [
   {
     id: 1,
-    name: "Claro",
-    amount: 1000,
-  },
-  {
-    id: 2,
-    name: "Personal",
-    amount: 1000,
-  },
-  {
-    id: 3,
     name: "Netflix",
     amount: 1000,
   },
   {
-    id: 4,
+    id: 2,
+    name: "Amazon Prime Video",
+    amount: 1000,
+  },
+  {
+    id: 3,
+    name: "Hbo Max",
+    amount: 1000,
+  },
+  {
+    id: 5,
     name: "Paramount+",
     amount: 1000,
   },

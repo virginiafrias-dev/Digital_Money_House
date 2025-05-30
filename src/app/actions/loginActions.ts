@@ -10,7 +10,7 @@ export const getAccountInfo = async () => {
         Authorization: token,
       },
     });
-    console.log(response.data);
+    console.log("getting Account Info", response.data);
     return { ...response.data, token };
   } catch (error) {
     console.error("Error al obtener la cuenta:", error);
@@ -29,7 +29,7 @@ export const getUserData = async () => {
         },
       }
     );
-    return response.data;
+    return { ...response.data, ...accountInfo };
   } catch (error) {
     console.error("Error al obtener la información del usuario:", error);
     throw error;

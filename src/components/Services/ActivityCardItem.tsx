@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { DividerLine } from "../DividerLine";
 
 export const ActivityCardItem = ({
@@ -17,14 +18,15 @@ export const ActivityCardItem = ({
   return (
     <div className="flex flex-col gap-6">
       <DividerLine />
-      <button
+      <Link
+        href={"/services/" + id}
         className="flex gap-3 justify-between items-center pb-6"
         type="button"
         onClick={handleSelect}
       >
         <p>{name}</p>
         <p className="text-black text-xs font-bold">Seleccionar</p>
-      </button>
+      </Link>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { isTokenExpired } from "./utils/tokenExpiry";
 
 const protectedRoutes = [
   "/dashboard",
@@ -18,8 +19,10 @@ export function middleware(request: NextRequest) {
     pathname.startsWith(route)
   );
 
-  if (isProtectedRoute && !token) {
-    return NextResponse.redirect(new URL("/", request.url));
+  if (isProtectedRoute && (!token || isTokenExpired(token.value))) {
+    const response = NextResponse.redirect(new URL("/login", request.url));
+    response.cookies.set("Authorization", "", { maxAge: 0 });
+    return response;
   }
 
   return NextResponse.next();
