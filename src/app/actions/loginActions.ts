@@ -1,10 +1,10 @@
 import { getServerToken } from "@/utils/server";
 import axios from "axios";
-import { UserData } from "@/types/types";
+import { AccountInfo, UserData } from "@/types/types";
 
 export const dynamic = "force-dynamic";
 
-export const getAccountInfo = async () => {
+export const getAccountInfo = async (): Promise<AccountInfo> => {
   try {
     const token = await getServerToken();
 

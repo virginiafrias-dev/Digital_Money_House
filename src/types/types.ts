@@ -1,3 +1,12 @@
+export interface AccountInfo {
+  id: number;
+  user_id: number;
+  cvu: string;
+  alias: string;
+  available_amount: number;
+  token?: string;
+}
+
 export interface UserData {
   alias: string;
   available_amount: number;

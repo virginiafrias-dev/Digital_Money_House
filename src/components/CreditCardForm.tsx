@@ -8,6 +8,7 @@ import { getCreditCardIssuer } from "@/utils/utils";
 import axios from "axios";
 import React, { useState } from "react";
 import Card from "./Card/Card";
+import { toast } from "react-toastify";
 
 const CreditCardForm = () => {
   const [cardData, setCardData] = useState({
@@ -89,7 +90,7 @@ const CreditCardForm = () => {
       location.href = "/payment-methods";
     } catch (error) {
       console.error(error);
-      alert("Error al crear la tarjeta");
+      toast.error("Error al crear la tarjeta");
     }
   };
 

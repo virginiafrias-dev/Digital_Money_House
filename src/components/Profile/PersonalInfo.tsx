@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CheckVerde from "@/public/icons/check-verde";
 import RedErrorCross from "@/public/icons/RedErrorCross";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const FIELDS = {
   email: { label: "Email", matchingField: "email" },
@@ -127,7 +128,7 @@ export const PersonalInfo = ({ userData }: { userData: ProfileData }) => {
       }
     } catch (error) {
       console.error(error);
-      alert("Ha habido un error al actualizar los datos");
+      toast.error("Ha habido un error al actualizar los datos");
     }
   };
 

@@ -19,7 +19,7 @@ body {
 }
 
 .btn {
-  @apply text-center cursor-pointer disabled:cursor-not-allowed! max-[370px]:text-sm text-base px-5 py-3 border rounded-xl font-bold;
+  @apply text-center cursor-pointer disabled:cursor-not-allowed! max-[370px]:text-sm text-base px-5 py-3 border rounded-xl font-bold shadow-lg;
 }
 
 .btn-header {
