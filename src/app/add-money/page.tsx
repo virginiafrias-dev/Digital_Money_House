@@ -10,7 +10,7 @@ const AddMoneyPage = () => {
   return (
     <div className="absolute inset-0">
       <PageTitle text="Cargar dinero" />
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 px-5 md:p-20">
         <Link href="/add-money/transfer">
           <Card style="black" className="p-6 py-10 flex items-center">
             <Profile />

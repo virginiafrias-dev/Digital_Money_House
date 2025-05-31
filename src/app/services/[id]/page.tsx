@@ -61,7 +61,7 @@ const PayServicePage = () => {
 
         {/* STEP 1 */}
         {step === "one" && (
-          <div className="flex flex-col gap-5 px-5 pb-5">
+          <div className="flex flex-col gap-5 px-5 pb-5 md:p-20">
             <Card style="black" className="flex flex-col gap-5 pb-20! p-6!">
               <p className="text-brand-green font-bold text-xl md:hidden">
                 Número de cuenta <br />

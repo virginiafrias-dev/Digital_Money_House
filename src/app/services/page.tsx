@@ -31,7 +31,7 @@ const ServicesPage = () => {
     <div className="inset-0 absolute">
       <PageTitle text="Pagar servicios" />
 
-      <div className="flex flex-col gap-5 px-5 pb-5">
+      <div className="flex flex-col gap-5 px-5 pb-5 md:p-20">
         {/* Search input */}
         <div className="relative flex">
           <div className="absolute left-4 top-1/2 -translate-y-1/2">

@@ -14,7 +14,7 @@ const PaymentMethodsPage = async () => {
     <div className="absolute inset-0">
       <PageTitle text="Tarjetas" />
 
-      <div className="px-5 flex flex-col gap-5 pb-5">
+      <div className="px-5 flex flex-col gap-5 pb-5 md:p-20">
         {/* New cards link */}
         <Link href={"/payment-methods/new"}>
           <Card

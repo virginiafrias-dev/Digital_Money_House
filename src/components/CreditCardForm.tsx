@@ -88,7 +88,7 @@ const CreditCardForm = () => {
   };
 
   return (
-    <div className="px-5 pb-5">
+    <div className="px-5 pb-5 md:p-20">
       <Card className="flex flex-col gap-6 p-6! shadow-lg bg-white">
         <div
           className="relative w-full max-w-sm mx-auto mb-6 card-flip"

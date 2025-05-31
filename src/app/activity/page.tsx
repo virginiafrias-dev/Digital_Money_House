@@ -7,7 +7,7 @@ const ActivityPage = () => {
   return (
     <div className="absolute inset-0">
       <PageTitle text="Tu actividad" />
-      <div className="flex flex-col gap-5 px-5">
+      <div className="flex flex-col gap-5 px-5 md:p-20">
         {/* Search input */}
         <div className="relative flex">
           <div className="absolute left-4 top-1/2 -translate-y-1/2">
