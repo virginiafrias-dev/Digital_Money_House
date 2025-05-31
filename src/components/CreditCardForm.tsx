@@ -8,7 +8,7 @@ import { getCreditCardIssuer } from "@/utils/utils";
 import axios from "axios";
 import React, { useState } from "react";
 import Card from "./Card/Card";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const CreditCardForm = () => {
   const [cardData, setCardData] = useState({
@@ -96,6 +96,7 @@ const CreditCardForm = () => {
 
   return (
     <div className="px-5 pb-5 md:p-20">
+      <ToastContainer />
       <Card className="flex flex-col gap-6 p-6! shadow-lg bg-white">
         <div
           className="relative w-full max-w-sm mx-auto mb-6 card-flip"

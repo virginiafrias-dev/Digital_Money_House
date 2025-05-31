@@ -10,7 +10,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const SingleActivityPage = () => {
   const { id } = useParams();
@@ -42,6 +42,7 @@ const SingleActivityPage = () => {
 
   return (
     <div className="absolute inset-0">
+      <ToastContainer />
       <PageTitle text="Tu actividad" />
       <div className="flex flex-col gap-5 p-6! px-5 md:p-20!">
         {!isLoading ? (

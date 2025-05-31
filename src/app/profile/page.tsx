@@ -13,6 +13,7 @@ const ProfilePage = async () => {
 
   const userData = {
     firstname: personalInfo.firstname,
+    alias: personalInfo.alias,
     lastname: personalInfo.lastname,
     email: personalInfo.email,
     dni: String(personalInfo.dni),

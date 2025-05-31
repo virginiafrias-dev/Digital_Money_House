@@ -14,7 +14,7 @@ import Card from "../Card/Card";
 import Spinner from "../Spinner";
 import axios from "axios";
 import CheckVerde from "@/public/icons/check-verde";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const CreditCardsSection = () => {
   const [step, setStep] = useState<"one" | "two" | "three" | "four">("one");
@@ -77,6 +77,7 @@ const CreditCardsSection = () => {
   if (!!creditCards.length) {
     return (
       <>
+        <ToastContainer />
         {/* STEP 1 */}
         <div className="flex flex-col gap-5 px-5 pb-5 md:p-20">
           {step === "one" && (

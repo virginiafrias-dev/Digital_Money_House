@@ -2,14 +2,17 @@
 import Edit from "@/public/icons/edit";
 import Card from "../Card/Card";
 import { DividerLine } from "../DividerLine";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CheckVerde from "@/public/icons/check-verde";
 import RedErrorCross from "@/public/icons/RedErrorCross";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const FIELDS = {
   email: { label: "Email", matchingField: "email" },
+  alias: { label: "Alias", matchingField: "alias" },
   firstname: { label: "Nombre", matchingField: "firstname" },
   lastname: { label: "Apellido", matchingField: "lastname" },
   dni: { label: "DNI", matchingField: "dni" },
@@ -19,6 +22,7 @@ const FIELDS = {
 
 interface ProfileData {
   firstname: string;
+  alias: string;
   lastname: string;
   email: string;
   dni: string;
@@ -28,6 +32,10 @@ interface ProfileData {
 
 interface EditingState {
   firstname: {
+    isEditing: boolean;
+    value: string;
+  };
+  alias: {
     isEditing: boolean;
     value: string;
   };
@@ -59,6 +67,10 @@ const EDITING_STATE_INITIAL_VALUES = {
     isEditing: false,
     value: "",
   },
+  alias: {
+    isEditing: false,
+    value: "",
+  },
   lastname: {
     isEditing: false,
     value: "",
@@ -81,10 +93,62 @@ const EDITING_STATE_INITIAL_VALUES = {
   },
 };
 
+interface ValidationError {
+  isValid: boolean;
+  message: string;
+}
+
+const validateEmail = (email: string): ValidationError => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return {
+    isValid: emailRegex.test(email),
+    message: "El email no es válido",
+  };
+};
+
+const validateAlias = (alias: string): ValidationError => {
+  const aliasRegex = /^[a-zA-Z]+\.[a-zA-Z]+\.[a-zA-Z]+$/;
+  return {
+    isValid: aliasRegex.test(alias),
+    message: "El alias debe contener tres palabras separadas por puntos",
+  };
+};
+
+const validateDNI = (dni: string): ValidationError => {
+  const dniRegex = /^\d+$/;
+  return {
+    isValid: dniRegex.test(dni),
+    message: "El DNI debe contener solo números",
+  };
+};
+
+const validatePassword = (password: string): ValidationError => {
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumbers = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  const hasValidLength = password.length >= 6 && password.length <= 20;
+
+  const isValid =
+    hasUpperCase &&
+    hasLowerCase &&
+    hasNumbers &&
+    hasSpecialChar &&
+    hasValidLength;
+
+  return {
+    isValid,
+    message:
+      "La contraseña debe tener entre 6 y 20 caracteres, una mayúscula, una minúscula, un número y un carácter especial",
+  };
+};
+
 export const PersonalInfo = ({ userData }: { userData: ProfileData }) => {
   const [editingState, setEditingState] = useState<EditingState>(
     EDITING_STATE_INITIAL_VALUES
   );
+
+  const router = useRouter();
 
   const toggleEdit = (key: string) => {
     setEditingState((prev) => ({
@@ -118,25 +182,57 @@ export const PersonalInfo = ({ userData }: { userData: ProfileData }) => {
   };
 
   const handleConfirm = async (key: string) => {
+    const value = editingState[key as keyof EditingState].value;
+    let validation: ValidationError = { isValid: true, message: "" };
+
+    switch (key) {
+      case "email":
+        validation = validateEmail(value);
+        break;
+      case "alias":
+        validation = validateAlias(value);
+        break;
+      case "dni":
+        validation = validateDNI(value);
+        break;
+      case "password":
+        validation = validatePassword(value);
+        break;
+      default:
+        validation = { isValid: true, message: "" };
+    }
+
+    if (!validation.isValid) {
+      toast.error(validation.message);
+      return;
+    }
+
     toggleEdit(key);
     try {
-      const response = await axios.patch("/api/profile", {
-        [key]: editingState[key as keyof EditingState].value,
-      });
-      if (response.status === 200) {
-        location.href = "/profile";
+      if (key === "alias") {
+        await axios.patch("/api/alias", { alias: value });
+      } else {
+        await axios.patch("/api/profile", {
+          [key]: value,
+        });
       }
+      router.refresh();
     } catch (error) {
       console.error(error);
       toast.error("Ha habido un error al actualizar los datos");
+      resetEditingState();
     }
   };
 
-  useEffect(() => {
+  const resetEditingState = useCallback(() => {
     setEditingState({
       firstname: {
         isEditing: false,
         value: userData.firstname,
+      },
+      alias: {
+        isEditing: false,
+        value: userData.alias,
       },
       lastname: {
         isEditing: false,
@@ -161,26 +257,34 @@ export const PersonalInfo = ({ userData }: { userData: ProfileData }) => {
     });
   }, [userData]);
 
-  return (
-    <Card className="bg-white flex flex-col gap-2 p-6! shadow-lg ">
-      <p className="font-bold text-xl text-black">Tus datos</p>
+  useEffect(() => {
+    resetEditingState();
+  }, [userData, resetEditingState]);
 
-      {Object.entries(FIELDS).map(([key, value]) => (
-        <PersonalInfoItem
-          key={key}
-          keyProp={key}
-          label={value.label}
-          value={
-            editingState[value.matchingField as keyof typeof editingState].value
-          }
-          toggleEdit={toggleEdit}
-          isEditing={editingState[key as keyof EditingState]?.isEditing}
-          handleInputChange={handleInputChange}
-          handleCancel={handleCancel}
-          handleConfirm={handleConfirm}
-        />
-      ))}
-    </Card>
+  return (
+    <>
+      <ToastContainer />
+      <Card className="bg-white flex flex-col gap-2 p-6! shadow-lg ">
+        <p className="font-bold text-xl text-black">Tus datos</p>
+
+        {Object.entries(FIELDS).map(([key, value]) => (
+          <PersonalInfoItem
+            key={key}
+            keyProp={key}
+            label={value.label}
+            value={
+              editingState[value.matchingField as keyof typeof editingState]
+                .value
+            }
+            toggleEdit={toggleEdit}
+            isEditing={editingState[key as keyof EditingState]?.isEditing}
+            handleInputChange={handleInputChange}
+            handleCancel={handleCancel}
+            handleConfirm={handleConfirm}
+          />
+        ))}
+      </Card>
+    </>
   );
 };
 
