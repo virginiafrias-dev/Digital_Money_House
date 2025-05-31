@@ -6,7 +6,7 @@ export async function GET() {
     return Response.json(userData, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: "Hubo un error al obtener la información del usuario" },
+      { message: "Hubo un error al obtener la información del usuario", error },
       { status: 500 }
     );
   }

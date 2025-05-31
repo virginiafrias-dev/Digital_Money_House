@@ -6,7 +6,10 @@ export async function GET() {
     return Response.json(accountInfo);
   } catch (error) {
     return Response.json(
-      { error: "Hubo un error al obtener la información de la cuenta" },
+      {
+        message: "Hubo un error al obtener la información de la cuenta",
+        error,
+      },
       { status: 500 }
     );
   }

@@ -13,6 +13,7 @@ export async function POST(request: Request) {
 
     return Response.json({ message: "Login exitoso" }, { status: 200 });
   } catch (error) {
+    console.error(error);
     return Response.error();
   }
 }

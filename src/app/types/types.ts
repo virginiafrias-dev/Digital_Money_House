@@ -1,4 +1,4 @@
-interface UserData {
+export interface UserData {
   alias: string;
   available_amount: number;
   cvu: string;

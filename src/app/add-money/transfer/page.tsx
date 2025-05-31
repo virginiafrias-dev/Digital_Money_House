@@ -3,6 +3,8 @@ import { BankingInfo } from "@/components/BankingInfo";
 import PageTitle from "@/components/PageTitle/PageTitle";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 const AddMoneyByTransferPage = async () => {
   const personalInfo = await getUserData();
 

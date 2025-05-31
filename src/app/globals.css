@@ -87,4 +87,18 @@ button {
   transform: rotateY(180deg);
 }
 
+.bg-landing {
+  background-image: url("../../public/img/landing-image-mobile.png");
+
+  & {
+    @media (width >= 48rem /* 1024px */) {
+      background-image: url("../../public/img/landing-image-tablet.png");
+    }
+
+    @media (width >= 64rem /* 1024px */) {
+      background-image: url("../../public/img/landing-image-desktop.png");
+    }
+  }
+}
+
 /* @import "react-credit-cards-2/dist/es/styles-compiled.css"; */

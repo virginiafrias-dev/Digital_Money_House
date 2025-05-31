@@ -27,10 +27,7 @@ const LandingPage = () => {
   return (
     <div
       className={clsx(
-        `flex min-h-full flex-col gap-5 justify-between bg-cover max-md:bg-center lg:bg-center absolute bottom-0 left-0 right-0 top-0`,
-        "bg-[url(@/public/img/landing-image-mobile.png)]",
-        "md:bg-[url(@/public/img/landing-image-tablet.png)]",
-        "lg:bg-[url(@/public/img/landing-image-desktop.png)]"
+        `flex min-h-full flex-col gap-5 justify-between bg-cover max-md:bg-center lg:bg-center absolute bottom-0 left-0 right-0 top-0 bg-landing`
       )}
     >
       <div className="px-5 md:px-13 py-10 md:py-20 flex flex-col gap-6">

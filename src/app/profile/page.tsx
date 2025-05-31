@@ -6,6 +6,8 @@ import ArrowRight from "@/public/icons/arrow-right";
 import Link from "next/link";
 import { getUserData } from "../actions/loginActions";
 
+export const dynamic = "force-dynamic";
+
 const ProfilePage = async () => {
   const personalInfo = await getUserData();
   console.log(personalInfo);

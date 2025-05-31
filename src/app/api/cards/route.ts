@@ -11,7 +11,10 @@ export async function GET() {
     );
     return Response.json(response.data);
   } catch (error) {
-    return Response.json({ message: "Error fetching cards" }, { status: 500 });
+    return Response.json(
+      { message: "Error fetching cards", error },
+      { status: 500 }
+    );
   }
 }
 
@@ -46,6 +49,9 @@ export async function POST(request: NextRequest) {
     return Response.json(response.data);
   } catch (error) {
     console.log(error);
-    return Response.json({ message: "Error creating card" }, { status: 500 });
+    return Response.json(
+      { message: "Error creating card", error },
+      { status: 500 }
+    );
   }
 }

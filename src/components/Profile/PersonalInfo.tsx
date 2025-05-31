@@ -158,7 +158,7 @@ export const PersonalInfo = ({ userData }: { userData: ProfileData }) => {
         value: userData.password,
       },
     });
-  }, []);
+  }, [userData]);
 
   return (
     <Card className="bg-white flex flex-col gap-2 p-6! shadow-lg ">

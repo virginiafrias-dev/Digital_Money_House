@@ -10,7 +10,7 @@ export async function getCards() {
     );
     return response.data;
   } catch (error) {
-    console.error({ message: "Error fetching cards" });
+    console.error({ message: "Error fetching cards", error });
     return;
   }
 }

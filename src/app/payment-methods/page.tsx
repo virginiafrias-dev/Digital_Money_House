@@ -6,6 +6,8 @@ import Plus from "@/public/icons/plus";
 import Link from "next/link";
 import { getCards } from "../actions/cardsActions";
 
+export const dynamic = "force-dynamic";
+
 const PaymentMethodsPage = async () => {
   const cards = await getCards();
   console.log(cards);

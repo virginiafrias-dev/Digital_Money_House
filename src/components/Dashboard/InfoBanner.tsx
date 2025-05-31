@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Card from "../Card/Card";
 
-const InfoBanner = ({ moneyAvailable }: { moneyAvailable: any }) => {
+const InfoBanner = ({ moneyAvailable }: { moneyAvailable: number }) => {
   if (String(moneyAvailable).length === 0) return;
   return (
     <Card

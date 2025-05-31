@@ -2,11 +2,9 @@ import { getAccountInfo } from "@/app/actions/loginActions";
 import axios from "axios";
 import { NextRequest } from "next/server";
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = await params;
+export async function DELETE(request: NextRequest) {
+  const params = await request.json();
+  const { id } = params;
   console.log("ID", id);
   try {
     const accountInfo = await getAccountInfo();
@@ -18,6 +16,9 @@ export async function DELETE(
     );
     return Response.json(response.data);
   } catch (error) {
-    return Response.json({ message: "Error deleting card" }, { status: 500 });
+    return Response.json(
+      { message: "Error deleting card", error },
+      { status: 500 }
+    );
   }
 }

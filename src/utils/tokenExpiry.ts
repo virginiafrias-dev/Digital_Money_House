@@ -5,7 +5,8 @@ export function isTokenExpired(token: string): boolean {
     if (!decoded.exp) return true;
     const now = Math.floor(Date.now() / 1000);
     return decoded.exp < now;
-  } catch (e) {
+  } catch (error) {
+    console.error(error);
     return true;
   }
 }

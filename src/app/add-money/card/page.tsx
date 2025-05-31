@@ -6,6 +6,8 @@ import CircleItemUnselected from "@/public/icons/CircleItemUnselected";
 import Plus from "@/public/icons/plus";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 const AddMoneyByCardPage = () => {
   return (
     <div className="absolute inset-0">
