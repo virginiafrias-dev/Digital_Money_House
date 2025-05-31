@@ -5,6 +5,7 @@ import ArrowRight from "@/public/icons/arrow-right";
 import Plus from "@/public/icons/plus";
 import Link from "next/link";
 import { getCards } from "../actions/cardsActions";
+import { DividerLine } from "@/components/DividerLine";
 
 export const dynamic = "force-dynamic";
 
@@ -54,12 +55,21 @@ const ActivityCard = ({ cards }: { cards: Card[] }) => (
   <Card className="bg-white flex flex-col p-6! shadow-lg">
     <p className="font-bold mb-4">Tus tarjetas</p>
 
-    {cards.map((card) => (
-      <ActivityCardItem
-        key={card.id}
-        cardInfo={{ id: card.id, number_id: card.number_id }}
-      />
-    ))}
+    {!!cards.length ? (
+      cards.map((card) => (
+        <ActivityCardItem
+          key={card.id}
+          cardInfo={{ id: card.id, number_id: card.number_id }}
+        />
+      ))
+    ) : (
+      <div className="flex flex-col gap-6">
+        <DividerLine />
+        <div className="flex gap-3 items-center pb-6">
+          <p className="text-sm grow">No tenés tarjetas asociadas</p>
+        </div>
+      </div>
+    )}
   </Card>
 );
 

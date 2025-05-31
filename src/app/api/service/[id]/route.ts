@@ -4,7 +4,6 @@ import { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     const { pathname } = await request.nextUrl;
-    console.log(pathname);
     const response = await axios.get(
       process.env.BASE_URL + "/service/" + pathname.split("/").pop()
     );

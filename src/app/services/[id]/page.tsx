@@ -1,17 +1,23 @@
 "use client";
 import Card from "@/components/Card/Card";
+import CreditCards from "@/components/CreditCards/CreditCards";
 import { DividerLine } from "@/components/DividerLine";
 import PageTitle from "@/components/PageTitle/PageTitle";
 import ServiceNotFound from "@/components/Services/ServiceNotFound";
 import Spinner from "@/components/Spinner";
+import useCreditCards from "@/hooks/useCreditCards";
 import CheckVerde from "@/public/icons/check-verde";
-import CircleItemSelected from "@/public/icons/CircleItemSelected";
-import CircleItemUnselected from "@/public/icons/CircleItemUnselected";
 import Plus from "@/public/icons/plus";
 import axios from "axios";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import clsx from "clsx";
+import { getCreditCardIssuer } from "@/utils/utils";
+import { CreditCard } from "@/types/types";
 
 interface ServiceData {
   id: number | undefined;
@@ -23,6 +29,17 @@ interface ServiceData {
 const PayServicePage = () => {
   const { id } = useParams();
   const [step, setStep] = useState<"one" | "two" | "three">("one");
+
+  const {
+    creditCards,
+    creditCardsLoading,
+    selectedCreditCard,
+    setSelectedCreditCard,
+  } = useCreditCards();
+
+  useEffect(() => {
+    console.log(selectedCreditCard);
+  }, [selectedCreditCard]);
 
   const [serviceData, setServiceData] = useState<ServiceData>({
     id: undefined,
@@ -60,32 +77,12 @@ const PayServicePage = () => {
         <PageTitle text="Pagar servicios" />
 
         {/* STEP 1 */}
-        {step === "one" && (
-          <div className="flex flex-col gap-5 px-5 pb-5 md:p-20">
-            <Card style="black" className="flex flex-col gap-5 pb-20! p-6!">
-              <p className="text-brand-green font-bold text-xl md:hidden">
-                Número de cuenta <br />
-                sin el primer 2
-              </p>
-              <p className="text-brand-green font-bold text-xl max-md:hidden">
-                Número de cuenta sin el primer 2
-              </p>
-              <input type="text" placeholder="Ingresá el número de cuenta" />
-            </Card>
-            <button
-              type="button"
-              onClick={() => setStep("two")}
-              className="btn btn-primary shadow-lg self-end px-10!"
-            >
-              <p>Continuar</p>
-            </button>
-          </div>
-        )}
+        {step === "one" && <StepOne handleNextStep={() => setStep("two")} />}
 
         {/* STEP 2 */}
         {step === "two" && (
-          <div className="flex flex-col gap-5 px-5 pb-5">
-            <Card style="black" className="flex flex-col gap-5 p-6!">
+          <div className="flex flex-col gap-5 px-5 pb-5 md:p-20">
+            <Card style="black" className="flex flex-col gap-5 p-6! shadow-lg">
               <div className="space-y-2">
                 <p className="text-xs font-semibold underline text-end">
                   Ver detalles de pago
@@ -110,11 +107,16 @@ const PayServicePage = () => {
                 </p>
               </div>
             </Card>
-            <Card style="black" className="flex flex-col gap-5 p-6!">
+            <Card style="black" className="flex flex-col gap-5 p-6! shadow-lg">
               <p className="font-bold text-xl text-brand-green">
                 Seleccionar tarjeta
               </p>
-              <ActivityCard />
+              <CreditCards
+                creditCards={creditCards}
+                selectedCreditCard={selectedCreditCard}
+                setSelectedCreditCard={setSelectedCreditCard}
+                creditCardsLoading={creditCardsLoading}
+              />
               <Link
                 href="/payment-methods/new"
                 className="flex gap-2 items-center"
@@ -135,53 +137,11 @@ const PayServicePage = () => {
 
         {/* STEP 3 */}
         {step === "three" && (
-          <div className="flex flex-col gap-5 px-5 pb-5">
-            <Card
-              style="green"
-              className="flex flex-col gap-5 p-6! items-center"
-            >
-              <CheckVerde fill="#000" className="w-11 h-11" />
-              <p className="font-bold">Ya realizamos tu pago</p>
-            </Card>
-            <Card style="black" className="flex flex-col gap-5 p-6!">
-              <div className="space-y-2">
-                <p className="text-xs">UNA FECHA</p>
-
-                <p className="font-bold text-xl text-brand-green">
-                  $
-                  {serviceData.invoice_value
-                    ? new Intl.NumberFormat("es", {
-                        style: "currency",
-                        currency: "ARS",
-                      })
-                        .format(serviceData.invoice_value)
-                        .replace("ARS", "")
-                    : "0"}
-                </p>
-              </div>
-              <div className="space-y-2">
-                <p className="text-xs">Para</p>
-
-                <p className="font-bold text-xl text-brand-green">
-                  Cuenta propia
-                </p>
-              </div>
-              <div className="space-y-2">
-                <p>Tarjeta</p>
-
-                <p>VISA **** **** **** 4067</p>
-              </div>
-            </Card>
-            <button className="btn btn-primary shadow-lg px-10!">
-              <p>Descargar comprobante</p>
-            </button>
-            <Link
-              href="/dashboard"
-              className="btn btn-primary shadow-lg px-10!"
-            >
-              <p>Ir al inicio</p>
-            </Link>
-          </div>
+          <StepThree
+            serviceData={serviceData}
+            handleDownloadReceipt={() => {}}
+            selectedCreditCard={selectedCreditCard}
+          />
         )}
       </div>
     );
@@ -190,26 +150,113 @@ const PayServicePage = () => {
   }
 };
 
-const ActivityCardItem = ({ selected }: { selected: boolean }) => (
-  <div className="flex flex-col gap-6">
-    <DividerLine />
-    <div className="flex gap-3 items-center pb-6">
-      <div className="bg-brand-green rounded-full w-6 h-6" />
-      <p className="text-sm grow">Terminada en 4067</p>
-      <button>
-        {selected ? <CircleItemSelected /> : <CircleItemUnselected />}
+const StepOne = ({ handleNextStep }: { handleNextStep: () => void }) => {
+  const schema = yup.object({
+    accountNumber: yup
+      .string()
+      .required("Campo obligatorio")
+      .matches(/^\d+$/, "Debe contener solo números")
+      .length(11, "Debe tener exactamente 11 dígitos"),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+    handleNextStep();
+  });
+
+  return (
+    <form onSubmit={onSubmit} className="flex flex-col gap-5 px-5 pb-5 md:p-20">
+      <Card style="black" className="flex flex-col gap-5 pb-20! p-6! shadow-lg">
+        <p className="text-brand-green font-bold text-xl md:hidden">
+          Número de cuenta <br />
+          sin el primer 2
+        </p>
+        <p className="text-brand-green font-bold text-xl max-md:hidden">
+          Número de cuenta sin el primer 2
+        </p>
+        <input
+          type="number"
+          placeholder="Ingresá el número de cuenta"
+          {...register("accountNumber")}
+          className={clsx(errors.accountNumber && "input-error")}
+        />
+        {errors.accountNumber && (
+          <small className="text-red-500 text-center">
+            {errors.accountNumber.message}
+          </small>
+        )}
+      </Card>
+      <button className="btn btn-primary shadow-lg self-end px-10!">
+        <p>Continuar</p>
       </button>
-    </div>
+    </form>
+  );
+};
+
+const StepThree = ({
+  serviceData,
+  handleDownloadReceipt,
+  selectedCreditCard,
+}: {
+  serviceData: ServiceData;
+  handleDownloadReceipt: () => void;
+  selectedCreditCard: CreditCard;
+}) => (
+  <div className="flex flex-col gap-5 px-5 pb-5 md:p-20">
+    <Card
+      style="green"
+      className="flex flex-col gap-5 p-6! shadow-lg items-center"
+    >
+      <CheckVerde fill="#000" className="w-11 h-11" />
+      <p className="font-bold">Ya realizamos tu pago</p>
+    </Card>
+    <Card style="black" className="flex flex-col gap-5 p-6!">
+      <div className="space-y-2">
+        <p className="text-xs">{serviceData.date}</p>
+
+        <p className="font-bold text-xl text-brand-green">
+          $
+          {serviceData.invoice_value
+            ? new Intl.NumberFormat("es", {
+                style: "currency",
+                currency: "ARS",
+              })
+                .format(serviceData.invoice_value)
+                .replace("ARS", "")
+            : "0"}
+        </p>
+      </div>
+      <div className="space-y-2">
+        <p className="text-xs">Para</p>
+
+        <p className="font-bold text-xl text-brand-green">Cuenta propia</p>
+      </div>
+      <div className="space-y-2">
+        <p>Tarjeta</p>
+
+        <p>
+          {getCreditCardIssuer(selectedCreditCard.number_id)} **** **** ****{" "}
+          {selectedCreditCard.number_id.toString().slice(-4)}
+        </p>
+      </div>
+    </Card>
+    <button
+      className="btn btn-primary shadow-lg px-10!"
+      type="button"
+      onClick={handleDownloadReceipt}
+    >
+      <p>Descargar comprobante</p>
+    </button>
+    <Link href="/dashboard" className="btn btn-primary shadow-lg px-10!">
+      <p>Ir al inicio</p>
+    </Link>
   </div>
-);
-
-const ActivityCard = () => (
-  <Card className="bg-white flex flex-col p-6! shadow-lg">
-    <p className="font-bold mb-4">Tus tarjetas</p>
-
-    <ActivityCardItem selected={true} />
-    <ActivityCardItem selected={false} />
-  </Card>
 );
 
 export default PayServicePage;

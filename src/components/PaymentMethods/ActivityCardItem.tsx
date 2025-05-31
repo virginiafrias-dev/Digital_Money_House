@@ -13,7 +13,6 @@ const ActivityCardItem = ({
   const handleDelete = async () => {
     await axios.delete("/api/cards/" + cardInfo.id);
     router.refresh();
-    // "/payment-methods"
   };
   return (
     <div className="flex flex-col gap-6">

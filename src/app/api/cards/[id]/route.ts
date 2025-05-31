@@ -3,9 +3,8 @@ import axios from "axios";
 import { NextRequest } from "next/server";
 
 export async function DELETE(request: NextRequest) {
-  const params = await request.json();
-  const { id } = params;
-  console.log("ID", id);
+  const { pathname } = await request.nextUrl;
+  const id = pathname.split("/").pop();
   try {
     const accountInfo = await getAccountInfo();
     const response = await axios.delete(
