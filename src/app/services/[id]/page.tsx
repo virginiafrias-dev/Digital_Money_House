@@ -18,6 +18,7 @@ import * as yup from "yup";
 import clsx from "clsx";
 import { getCreditCardIssuer } from "@/utils/utils";
 import { CreditCard } from "@/types/types";
+import { toast, ToastContainer } from "react-toastify";
 
 interface ServiceData {
   id: number | undefined;
@@ -60,6 +61,20 @@ const PayServicePage = () => {
     }
   };
 
+  const handlePayService = async () => {
+    try {
+      await axios.post("/api/service", {
+        amount: serviceData.invoice_value,
+        dated: new Date().toISOString(),
+        description: serviceData.name,
+      });
+      setStep("three");
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al pagar el servicio");
+    }
+  };
+
   useEffect(() => {
     if (id) {
       getServiceData(id as string);
@@ -72,6 +87,7 @@ const PayServicePage = () => {
     return (
       <div className="inset-0 absolute">
         <PageTitle text="Pagar servicios" />
+        <ToastContainer />
 
         {/* STEP 1 */}
         {step === "one" && <StepOne handleNextStep={() => setStep("two")} />}
@@ -122,7 +138,7 @@ const PayServicePage = () => {
             <button
               className="btn btn-primary shadow-lg self-end px-10!"
               type="button"
-              onClick={() => setStep("three")}
+              onClick={handlePayService}
             >
               <p>Pagar</p>
             </button>
