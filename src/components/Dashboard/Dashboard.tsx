@@ -45,29 +45,7 @@ const Dashboard = async () => {
           </Link>
         </div>
 
-        {/* Search bar */}
-        <div className="relative flex">
-          <div className="absolute left-4 top-1/2 -translate-y-1/2">
-            <LookingGlass />
-          </div>
-          <input
-            type="text"
-            placeholder="Buscar en tu actividad"
-            className="ring-transparent shadow-lg grow pl-10! py-5! md:text-lg"
-          />
-        </div>
-
-        {/* Activity card */}
-        {Array.isArray(activity) && (
-          <ActivityCardDashboard
-            activity={activity
-              .slice(0, 10)
-              .sort(
-                (a, b) =>
-                  new Date(b.dated).getTime() - new Date(a.dated).getTime()
-              )}
-          />
-        )}
+        <ActivityCardDashboard activity={activity} />
       </div>
     </div>
   );
