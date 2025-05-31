@@ -1,7 +1,13 @@
 "use client";
+import AmexLogo from "@/public/icons/AmexLogo";
+import DefaultCreditCardLogo from "@/public/icons/DefaultCreditCardLogo";
+import DiscoverLogo from "@/public/icons/DiscoverLogo";
+import MasterCardLogo from "@/public/icons/MasterCardLogo";
+import VisaLogo from "@/public/icons/VisaLogo";
+import { getCreditCardIssuer } from "@/utils/utils";
+import axios from "axios";
 import React, { useState } from "react";
 import Card from "./Card/Card";
-import axios from "axios";
 
 const CreditCardForm = () => {
   const [cardData, setCardData] = useState({
@@ -105,13 +111,27 @@ const CreditCardForm = () => {
           >
             {/* Front Side */}
             <div className="card-flip-front rounded-xl bg-gradient-to-tr from-brand-green to-brand-gray via-brand-black text-white shadow-lg p-6 h-44 flex flex-col justify-between">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center gap-1">
                 <span className="text-base sm:text-lg font-semibold tracking-widest block max-w-[190px] sm:max-w-[220px]">
                   {cardData.number
                     ? formatCardNumber(cardData.number)
                     : "•••• •••• •••• ••••"}
                 </span>
-                <span className="text-xs uppercase">VISA</span>
+                {getCreditCardIssuer(cardData.number) === "VISA" && (
+                  <VisaLogo className="h-12 w-12" />
+                )}
+                {getCreditCardIssuer(cardData.number) === "MASTERCARD" && (
+                  <MasterCardLogo className="h-12 w-12" />
+                )}
+                {getCreditCardIssuer(cardData.number) === "AMEX" && (
+                  <AmexLogo className="h-12 w-12" />
+                )}
+                {getCreditCardIssuer(cardData.number) === "DISCOVER" && (
+                  <DiscoverLogo className="h-12 w-12" />
+                )}
+                {!getCreditCardIssuer(cardData.number) && (
+                  <DefaultCreditCardLogo className="h-12 w-12" stroke="white" />
+                )}
               </div>
               <div>
                 <div className="flex justify-between items-end mt-4 gap-x-6">
