@@ -11,7 +11,6 @@ export const dynamic = "force-dynamic";
 
 const PaymentMethodsPage = async () => {
   const cards = await getCards();
-  console.log(cards);
 
   return (
     <div className="absolute inset-0">

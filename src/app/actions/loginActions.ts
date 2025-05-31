@@ -13,7 +13,6 @@ export const getAccountInfo = async (): Promise<AccountInfo> => {
         Authorization: token,
       },
     });
-    console.log("getting Account Info", response.data);
     return { ...response.data, token };
   } catch (error) {
     console.error("Error al obtener la cuenta:", error);

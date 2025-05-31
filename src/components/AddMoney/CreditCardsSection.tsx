@@ -55,7 +55,6 @@ const CreditCardsSection = () => {
   const onSubmit = handleSubmit((data) => {
     setStep("three");
     setAmount(data.amount);
-    console.log(data.amount);
   });
 
   const handleTransfer = async () => {
@@ -241,7 +240,7 @@ const CreditCardsSection = () => {
                   </p>
                 </div>
               </Card>
-              <div className="flex gap-5">
+              <div className="flex gap-5 max-md:flex-col">
                 <Link
                   href={"/dashboard"}
                   className="btn btn-primary shadow-lg basis-1/2 flex items-center justify-center"

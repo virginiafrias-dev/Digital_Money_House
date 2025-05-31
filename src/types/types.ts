@@ -7,6 +7,12 @@ export interface AccountInfo {
   token?: string;
 }
 
+export interface Service {
+  date: string;
+  id: number;
+  name: string;
+}
+
 export interface UserData {
   alias: string;
   available_amount: number;

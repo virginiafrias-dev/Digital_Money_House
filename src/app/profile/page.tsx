@@ -10,7 +10,6 @@ export const dynamic = "force-dynamic";
 
 const ProfilePage = async () => {
   const personalInfo = await getUserData();
-  console.log(personalInfo);
 
   const userData = {
     firstname: personalInfo.firstname,
@@ -20,7 +19,6 @@ const ProfilePage = async () => {
     phone: personalInfo.phone,
     password: "******",
   };
-  console.log(userData);
 
   return (
     <div className="absolute inset-0">

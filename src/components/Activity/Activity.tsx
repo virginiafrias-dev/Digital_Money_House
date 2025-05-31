@@ -17,6 +17,7 @@ import {
   subMonths,
   subYears,
 } from "date-fns";
+import Link from "next/link";
 
 interface ActivityProps {
   activity: ActivityType[];
@@ -73,7 +74,6 @@ const Activity = ({ activity: originalActivity }: ActivityProps) => {
 
   const handleFilteredSort = useCallback((sort: Sort) => {
     setSort(sort);
-    console.log("cambiando SORT", sort);
   }, []);
 
   const applyFilteredSort = () => {
@@ -122,7 +122,6 @@ const Activity = ({ activity: originalActivity }: ActivityProps) => {
 
   useEffect(() => {
     applyFilteredSort();
-    console.log(originalActivity);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [originalActivity]);
 
@@ -221,6 +220,7 @@ const Activity = ({ activity: originalActivity }: ActivityProps) => {
               description={each.description}
               amount={each.amount}
               dated={each.dated}
+              id={each.id}
             />
           ))
         ) : (
@@ -254,26 +254,26 @@ interface ActivityCardItemProps {
   description: string;
   amount: number;
   dated: string;
+  id: number;
 }
 
 const ActivityCardItem = ({
   description,
   amount,
   dated,
+  id,
 }: ActivityCardItemProps) => (
   <>
     <DividerLine />
-    <div className="flex gap-3 items-center">
+    <Link href={`/activity/${id}`} className="flex gap-3 items-center">
       <div className="bg-brand-green rounded-full w-6 h-6" />
       <p className="text-sm md:text-base grow">{description}</p>
       <div className="flex flex-col justify-evenly items-end">
         <p className="text-sm md:text-base text-brand-gray">
-          {new Intl.NumberFormat("es", {
+          {new Intl.NumberFormat("es-AR", {
             style: "currency",
             currency: "ARS",
-          })
-            .format(amount)
-            .replace("ARS", "")}
+          }).format(amount)}
         </p>
         <p className="text-xs md:text-sm text-black/50">
           {new Date(dated).toLocaleDateString("es-ES", {
@@ -283,7 +283,7 @@ const ActivityCardItem = ({
           })}
         </p>
       </div>
-    </div>
+    </Link>
   </>
 );
 

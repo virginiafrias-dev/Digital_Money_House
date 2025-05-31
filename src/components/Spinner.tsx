@@ -1,7 +1,11 @@
 import clsx from "clsx";
 import React from "react";
 
-const Spinner = ({ bg = "brand-white" }: { bg?: "white" | "brand-white" }) => {
+const Spinner = ({
+  bg = "brand-white",
+}: {
+  bg?: "white" | "brand-white" | "brand-black";
+}) => {
   return (
     <div className="inset-0 absolute">
       <div className="flex items-center justify-center h-full pb-[30vh]">

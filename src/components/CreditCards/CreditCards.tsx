@@ -44,13 +44,6 @@ const CreditCards = ({
   setSelectedCreditCard,
   creditCardsLoading,
 }: CreditCardsProps) => {
-  // const {
-  //   creditCards,
-  //   selectedCreditCard,
-  //   setSelectedCreditCard,
-  //   creditCardsLoading,
-  // } = useCreditCards();
-
   return (
     <Card className="bg-white flex flex-col p-6! shadow-lg relative">
       {creditCardsLoading ? (

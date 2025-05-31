@@ -28,13 +28,10 @@ const InfoBanner = ({ moneyAvailable }: { moneyAvailable: number }) => {
         <p className="md:font-bold">Dinero disponible</p>
         <div className="flex">
           <p className="font-bold text-2xl md:text-[32px] lg:text-[36px] border border-brand-green rounded-full px-4 py-2">
-            $
-            {new Intl.NumberFormat("es", {
+            {new Intl.NumberFormat("es-AR", {
               style: "currency",
               currency: "ARS",
-            })
-              .format(Number(moneyAvailable))
-              .replace("ARS", "")}
+            }).format(Number(moneyAvailable))}
           </p>
         </div>
       </div>

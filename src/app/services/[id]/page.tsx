@@ -37,9 +37,7 @@ const PayServicePage = () => {
     setSelectedCreditCard,
   } = useCreditCards();
 
-  useEffect(() => {
-    console.log(selectedCreditCard);
-  }, [selectedCreditCard]);
+  useEffect(() => {}, [selectedCreditCard]);
 
   const [serviceData, setServiceData] = useState<ServiceData>({
     id: undefined,
@@ -54,7 +52,6 @@ const PayServicePage = () => {
       const response = await axios(`/api/service/${id}`);
       setServiceData(response.data);
       setFetchedServiceData(true);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching service data:", error);
@@ -95,14 +92,11 @@ const PayServicePage = () => {
               <div className="flex items-center">
                 <p className="font-bold grow">Total a pagar</p>
                 <p className="font-bold">
-                  $
                   {serviceData.invoice_value
-                    ? new Intl.NumberFormat("es", {
+                    ? new Intl.NumberFormat("es-AR", {
                         style: "currency",
                         currency: "ARS",
-                      })
-                        .format(serviceData.invoice_value)
-                        .replace("ARS", "")
+                      }).format(serviceData.invoice_value)
                     : "0"}
                 </p>
               </div>
@@ -166,7 +160,6 @@ const StepOne = ({ handleNextStep }: { handleNextStep: () => void }) => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
     handleNextStep();
   });
 
@@ -235,7 +228,7 @@ const StepThree = ({
       <div className="space-y-2">
         <p className="text-xs">Para</p>
 
-        <p className="font-bold text-xl text-brand-green">Cuenta propia</p>
+        <p className="font-bold text-xl text-brand-green">{serviceData.name}</p>
       </div>
       <div className="space-y-2">
         <p>Tarjeta</p>
@@ -246,16 +239,21 @@ const StepThree = ({
         </p>
       </div>
     </Card>
-    <button
-      className="btn btn-primary shadow-lg px-10!"
-      type="button"
-      onClick={handleDownloadReceipt}
-    >
-      <p>Descargar comprobante</p>
-    </button>
-    <Link href="/dashboard" className="btn btn-primary shadow-lg px-10!">
-      <p>Ir al inicio</p>
-    </Link>
+    <div className="flex gap-5 max-md:flex-col-reverse">
+      <Link
+        href="/dashboard"
+        className="btn btn-primary shadow-lg px-10! basis-1/2 grid place-items-center"
+      >
+        <p>Ir al inicio</p>
+      </Link>
+      <button
+        className="btn btn-primary shadow-lg px-10! basis-1/2 grid place-items-center"
+        type="button"
+        onClick={handleDownloadReceipt}
+      >
+        <p>Descargar comprobante</p>
+      </button>
+    </div>
   </div>
 );
 

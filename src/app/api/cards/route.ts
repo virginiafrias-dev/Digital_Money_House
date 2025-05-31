@@ -43,11 +43,10 @@ export async function POST(request: NextRequest) {
       },
       { headers: { Authorization: accountInfo.token } }
     );
-    console.log(response.data);
 
     return Response.json(response.data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return Response.json(
       { message: "Error creating card", error },
       { status: 500 }
