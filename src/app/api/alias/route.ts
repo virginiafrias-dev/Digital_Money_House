@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getAccountInfo } from "@/app/actions/loginActions";
 import axios from "axios";
 import { NextRequest } from "next/server";

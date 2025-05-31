@@ -1,6 +1,8 @@
 import axios from "axios";
 import { NextRequest } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: NextRequest) {
   try {
     const { pathname } = await request.nextUrl;

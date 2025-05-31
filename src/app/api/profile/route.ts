@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getUserData } from "@/app/actions/loginActions";
 import axios from "axios";
 import { NextRequest } from "next/server";
@@ -15,9 +17,7 @@ export async function PATCH(request: NextRequest) {
         },
       }
     );
-    return Response.json({
-      message: "Profile updated successfully",
-    });
+    return Response.json(response.data);
   } catch (error) {
     return Response.json(
       {

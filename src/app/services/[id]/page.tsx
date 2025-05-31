@@ -159,7 +159,7 @@ const StepOne = ({ handleNextStep }: { handleNextStep: () => void }) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(() => {
     handleNextStep();
   });
 

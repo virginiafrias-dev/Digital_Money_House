@@ -1,11 +1,10 @@
-import LookingGlass from "@/public/icons/looking-glass";
+import { getActivity } from "@/app/actions/activityActions";
+import { getUserData } from "@/app/actions/loginActions";
 import Link from "next/link";
 import Card from "../Card/Card";
 import PageTitle from "../PageTitle/PageTitle";
 import ActivityCardDashboard from "./ActivityCardDashboard";
 import InfoBanner from "./InfoBanner";
-import { getUserData } from "@/app/actions/loginActions";
-import { getActivity } from "@/app/actions/activityActions";
 
 const Dashboard = async () => {
   const info = await getUserData();

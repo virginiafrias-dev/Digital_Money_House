@@ -2,6 +2,8 @@ import axios from "axios";
 import { getAccountInfo } from "./loginActions";
 import { Service } from "@/types/types";
 
+export const dynamic = "force-dynamic";
+
 export async function getServices(): Promise<Service[]> {
   try {
     const accountInfo = await getAccountInfo();
