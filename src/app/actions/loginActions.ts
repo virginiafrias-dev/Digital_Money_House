@@ -18,7 +18,7 @@ export const getAccountInfo = async () => {
   }
 };
 
-export const getUserData = async () => {
+export const getUserData = async (): Promise<UserData> => {
   try {
     const accountInfo = await getAccountInfo();
     const response = await axios.get(

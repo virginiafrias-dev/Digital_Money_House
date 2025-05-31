@@ -5,10 +5,12 @@ import PageTitle from "../PageTitle/PageTitle";
 import ActivityCardDashboard from "./ActivityCardDashboard";
 import InfoBanner from "./InfoBanner";
 import { getUserData } from "@/app/actions/loginActions";
+import { getActivity } from "@/app/actions/activityActions";
 
 const Dashboard = async () => {
   const info = await getUserData();
-  console.log(info);
+
+  const activity = await getActivity();
 
   return (
     <div className="absolute inset-0">
@@ -56,7 +58,16 @@ const Dashboard = async () => {
         </div>
 
         {/* Activity card */}
-        <ActivityCardDashboard />
+        {Array.isArray(activity) && (
+          <ActivityCardDashboard
+            activity={activity
+              .slice(0, 10)
+              .sort(
+                (a, b) =>
+                  new Date(b.dated).getTime() - new Date(a.dated).getTime()
+              )}
+          />
+        )}
       </div>
     </div>
   );
