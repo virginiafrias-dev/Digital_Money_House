@@ -59,7 +59,7 @@ const CreditCards = ({
           {!!creditCards.length ? (
             creditCards.map((card) => (
               <CreditCardItem
-                key={card.id}
+                key={card.number_id}
                 selected={card.id === selectedCreditCard.id}
                 card={card}
                 setSelectedCreditCard={setSelectedCreditCard}

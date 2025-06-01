@@ -126,8 +126,8 @@ const CreditCardsSection = () => {
                     $
                   </span>
                   <input
+                    data-testid="amount-input"
                     type="number"
-                    min={1}
                     max={1000000}
                     placeholder="0"
                     {...register("amount")}
