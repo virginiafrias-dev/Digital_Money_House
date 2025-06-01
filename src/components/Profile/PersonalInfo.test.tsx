@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { PersonalInfo } from "./PersonalInfo";
+import axios from "axios";
 
 jest.mock("axios", () => ({
   patch: jest.fn(),
@@ -13,7 +14,7 @@ jest.mock("next/navigation", () => ({
 
 const toastErrorMock = jest.fn();
 jest.mock("react-toastify", () => ({
-  toast: { error: (...args: any[]) => toastErrorMock(...args) },
+  toast: { error: (...args: unknown[]) => toastErrorMock(...args) },
   ToastContainer: () => <div data-testid="toast-container" />,
 }));
 
@@ -45,7 +46,6 @@ describe("PersonalInfo", () => {
   });
 
   it("permite editar y guardar el alias correctamente", async () => {
-    const axios = require("axios");
     render(<PersonalInfo userData={userData} />);
     const editButtons = screen.getAllByRole("button");
     fireEvent.click(editButtons[0]);

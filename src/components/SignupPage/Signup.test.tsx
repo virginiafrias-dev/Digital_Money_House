@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import SignupPage from "./SignupPage";
+import axios from "axios";
 
 jest.mock("next/navigation");
 
@@ -70,8 +71,7 @@ describe("SignupPage", () => {
   });
 
   it("envía el formulario correctamente si los datos son válidos", async () => {
-    const axios = require("axios");
-    axios.post.mockResolvedValueOnce({ data: {} });
+    (axios.post as jest.Mock).mockResolvedValueOnce({ data: {} });
 
     render(<SignupPage />);
     fireEvent.change(screen.getByTestId("firstname-input"), {

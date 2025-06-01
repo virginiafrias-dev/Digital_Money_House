@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import CreditCardsSection from "./CreditCardsSection";
+import axios from "axios";
 
 jest.mock("@/hooks/useCreditCards", () => () => ({
   creditCards: [{ number_id: "1234567890123456", name: "Visa" }],
@@ -18,7 +19,7 @@ jest.mock("axios", () => ({
 
 const toastErrorMock = jest.fn();
 jest.mock("react-toastify", () => ({
-  toast: { error: (...args: any[]) => toastErrorMock(...args) },
+  toast: { error: (...args: unknown[]) => toastErrorMock(...args) },
   ToastContainer: () => <div data-testid="toast-container" />,
 }));
 
@@ -53,8 +54,7 @@ describe("CreditCardsSection", () => {
   });
 
   it("permite avanzar al paso 3 y transferir correctamente", async () => {
-    const axios = require("axios");
-    axios.post.mockResolvedValueOnce({
+    (axios.post as jest.Mock).mockResolvedValueOnce({
       data: { dated: "2024-06-01T12:00:00Z" },
     });
 
@@ -82,8 +82,9 @@ describe("CreditCardsSection", () => {
   });
 
   it("muestra error si la transferencia falla", async () => {
-    const axios = require("axios");
-    axios.post.mockRejectedValueOnce(new Error("Error al transferir"));
+    (axios.post as jest.Mock).mockRejectedValueOnce(
+      new Error("Error al transferir")
+    );
 
     render(<CreditCardsSection />);
     fireEvent.click(screen.getByText("Continuar"));

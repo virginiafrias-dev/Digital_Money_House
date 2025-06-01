@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import LoginPage from "./LoginPage";
+import axios from "axios";
 
 jest.mock("@/hooks/useAuth", () => ({
   useAuth: () => ({ isAuthenticated: false }),
@@ -66,8 +67,9 @@ describe("LoginPage", () => {
   });
 
   it("muestra error de credenciales incorrectas si el login falla", async () => {
-    const axios = require("axios");
-    axios.post.mockRejectedValueOnce(new Error("Credenciales incorrectas"));
+    (axios.post as jest.Mock).mockRejectedValueOnce(
+      new Error("Credenciales incorrectas")
+    );
 
     render(<LoginPage />);
     // Paso 1: email válido
